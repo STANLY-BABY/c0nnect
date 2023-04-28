@@ -1,0 +1,15 @@
+.Suggestion {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    flex: 3;
+    position: fixed;
+    right: 0;
+    height: calc(100vh - 70px);
+    overflow: scroll;
+    background-color: white;
+    color: themed("textColor");
+    border-radius: 0 0 0 10px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}

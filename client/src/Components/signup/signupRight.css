@@ -1,0 +1,54 @@
+input[type="radio"]
+{
+  appearance: none;
+}
+
+input[type="radio"] + label
+{
+  cursor: pointer;
+  position: relative;
+  padding-left: 30px;
+  line-height: 20px;
+}
+
+input[type="radio"] + label::before
+{
+  content: "";
+  display: inline-block;
+  width: 20px;
+  aspect-ratio: 1;
+  border: 1px solid #686de0;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  opacity: 1;
+  transition: all 0.3s;
+}
+
+input[type="radio"] + label::after
+{
+  content: "";
+  display: inline-block;
+  width: 10px;
+  aspect-ratio: 1;
+  border: 1px solid #686de0;
+  background: #686de0;
+  border-radius: 50%;
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+input[type="radio"]:checked + label::after
+{
+  opacity: 1;
+}
+.submitbtn:disabled{
+background-color: silver;
+pointer-events: none;
+}

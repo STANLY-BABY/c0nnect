@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+    font-family: 'Poppins';
+    src: url('./Poppins-Regular.ttf');
+}
+@font-face {
+    font-family: 'Mich';
+    src: url('./Michroma-Regular.ttf');
+}
+
+*{
+    font-family: 'Poppins'
+}
