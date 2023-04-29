@@ -1,6 +1,6 @@
 const io = require("socket.io")(8800, {
   cors: {
-    origin: "https://c0nnect.tech:3000",
+    origin: "https://c0nnect.tech",
   },
 });
 let activeUsers = [];
