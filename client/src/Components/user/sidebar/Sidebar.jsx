@@ -51,7 +51,7 @@ function Sidebar() {
               <span>Notifiactions</span>
             </div>
           </Link> */}
-          <Link
+          {/* <Link
             to={`/profile/${user._id}`}
             style={{ textDecoration: "none", color: "black" }}
           >
@@ -59,7 +59,7 @@ function Sidebar() {
               <PermIdentityOutlinedIcon />
               <span>Profile</span>
             </div>
-          </Link>
+          </Link> */}
           {/* <Link
             to="/setting"
             style={{ textDecoration: "none", color: "black" }}
