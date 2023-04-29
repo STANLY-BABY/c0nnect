@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://c0nnect.tech" });
 export const getReports = async () => await API.get(`/report`);
 export const reportPost = async (id, report) =>
   await API.post(`/report/${id}`, report);
