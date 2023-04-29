@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://c0nnect.tech" });
 export const getUserData = () => API.get(`/admin/getAllUsers`);
 export const getAllReports = () => API.get(`/admin/getreports`);
 export const getPost = (id) => API.get(`/admin/getposts/${id}`);
