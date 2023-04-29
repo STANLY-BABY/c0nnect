@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = axios.create({ baseURL: "https://c0nnect.tech" });
+const API = axios.create({ baseURL: "https://api.c0nnect.tech" });
 
 export const getTimelinePosts = (id) => API.get(`/post/${id}/timeline`);
 export const likePost = (id, userId) =>

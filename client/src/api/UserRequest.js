@@ -1,6 +1,6 @@
 import axios from "axios";
 import { reject } from "promise";
-const API = axios.create({ baseURL: "https://c0nnect.tech" });
+const API = axios.create({ baseURL: "https://api.c0nnect.tech" });
 
 export const getUser = (userId) => API.get(`/user/${userId}`);
 export const getAllUser = () => API.get("/user");
