@@ -214,7 +214,7 @@ export const UpdateProfilePicture = (req, res) => {
             });
             user.profilePicture = url;
           }
-          console.log(user);
+          console.log(user,"22222222");
           res.status(200).json(user);
         } catch (error) {
           res.status(500).json(error);

@@ -107,10 +107,9 @@ function UserProfile() {
             <Createpost />
             {postData && postData.length !== 0
               ? postData.map((post, id) => {
-                  return <Post data={post} id={id} />;
+                  return <Post data={post} key={id} id={id} />;
                 })
               : "noo postsss"}
-            {/* <div className=""><Post/></div> */}
           </div>
         </div>
       </div>

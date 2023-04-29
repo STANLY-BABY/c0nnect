@@ -19,9 +19,18 @@ const authReducer = (
       return { ...state, loading: false, error: true };
 
     case "UPDATE_PROFILE_PIC_SUCCESS":
-      console.log('action',action);
-      return{...state,authData: { ...state.authData, user: { ...state.authData.user, profilePicture: action.payload.profilePicture } }}
-      
+      console.log("action", action);
+      return {
+        ...state,
+        authData: {
+          ...state.authData,
+          user: {
+            ...state.authData.user,
+            profilePicture: action.payload.file.profilePicture,
+          },
+        },
+      };
+
     default:
       return state;
   }
