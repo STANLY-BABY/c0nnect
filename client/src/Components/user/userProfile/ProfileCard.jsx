@@ -12,7 +12,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useDispatch } from "react-redux";
 function ProfileCard({user}) {
   const [open, setOpen] = useState(false);
-const dispatch=useDispatch
+const dispatch=useDispatch()
   return (
     <div>
       <div className="rounded-md mt-3 min-w-[20rem]  bg-white shadow-md sticky top-0	">
