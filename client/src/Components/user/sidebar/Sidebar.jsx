@@ -70,7 +70,7 @@ function Sidebar() {
 
         </div>
         <div>
-          <p className="my-7 font-semibold">Account</p>
+          <p className="my-7 font-semibold">Account!</p>
 
           <div className="flex ">
             <img
