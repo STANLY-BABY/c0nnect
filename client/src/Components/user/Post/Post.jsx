@@ -117,7 +117,11 @@ function Post({ data }) {
           <div className="flex ">
             <img
               class=" w-12 mx-5 h-12 p-0.5 rounded-full ring-2 ring-pink-600 dark:ring-pink-600"
-              src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
+              src={
+                user?.profilePicture
+                  ? user.profilePicture
+                  : "https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
+              }
               alt="Bordered avatar"
             />
             <div>
