@@ -60,15 +60,14 @@ function Sidebar() {
               <span>Profile</span>
             </div>
           </Link>
-          {/* <Link
-            to="/setting"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <div className="item">
+
+            <div className="item cursor-pointer text-slate-900">
               <SettingsOutlinedIcon />
-              <span>Setting</span>
+              <span onClick={()=>{
+                localStorage.clear()
+              }}>LogOut</span>
             </div>
-          </Link> */}
+
         </div>
         <div>
           <p className="my-7 font-semibold">Account</p>
