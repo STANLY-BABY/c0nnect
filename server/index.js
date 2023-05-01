@@ -9,7 +9,7 @@ import PostRoute from "./Routes/PostRoute.js";
 import ChatRoute from "./Routes/ChatRoute.js";
 import MessageRoute from "./Routes/MessageRoute.js";
 import AdminRoute from "./Routes/AdminRoutes.js";
-import ReportRoute from "./Routes/ReportRoute.js";
+import ReportRoute from "./Routes/ReportRoute.js"
 // Routes
 
 const app = express();
@@ -17,15 +17,7 @@ const app = express();
 //Middleware
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(
-  cors({
-    cors: {
-      origin: "https://api.c0nnect.tech",
-    },
-    methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
-    credentials:true
-  })
-);
+app.use(cors());
 dotenv.config();
 
 mongoose
@@ -43,4 +35,4 @@ app.use("/post", PostRoute);
 app.use("/chats", ChatRoute);
 app.use("/message", MessageRoute);
 app.use("/admin", AdminRoute);
-app.use("/report", ReportRoute);
+app.use("/report", ReportRoute)
