@@ -10,10 +10,10 @@ function Suggestion() {
   const { user } = useSelector((state) => state.authReducer.authData);
 
   useEffect(() => {
+    console.log('data');
     const fetchPersons = async () => {
       const { data } = await getAllUser();
       setPersons(data);
-      console.log(data,'data');
     };
     return(()=>fetchPersons())
     
