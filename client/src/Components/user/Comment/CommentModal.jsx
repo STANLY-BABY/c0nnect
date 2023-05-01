@@ -13,14 +13,17 @@ import EditIcon from "@mui/icons-material/Edit";
 import styles from "./CommentModal.module.scss";
 import InputEmoji from "react-input-emoji";
 import Post from "../Post/Post";
-import { addComment, deleteComment, getComments, updateComment } from "../../../api/PostRequest";
+import {
+  addComment,
+  deleteComment,
+  getComments,
+  updateComment,
+} from "../../../api/PostRequest";
 
 const CommentModal = ({ commetModal, setCommentModal, post }) => {
   const theme = useMantineTheme();
   const inputRef = useRef(null);
-  const tooltipRef = useRef(null);
   const { user } = useSelector((state) => state.authReducer.authData);
-  const dispatch = useDispatch();
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
   const [commentEdit, setCommentEdit] = useState(false);
@@ -47,7 +50,7 @@ const CommentModal = ({ commetModal, setCommentModal, post }) => {
       const { data } = await getComments(post._id);
 
       setComments(data);
-      return ;
+      return;
     };
     return () => fetchComments();
   }, []);
@@ -59,32 +62,31 @@ const CommentModal = ({ commetModal, setCommentModal, post }) => {
   //   }, [comments]);
 
   const handleSend = (e) => {
-    console.log("handel",user._id, newComment);
+    console.log("handel", user._id, newComment);
     let data = { userId: user._id, comment: newComment };
     addComment(post._id, data).then((res) => {
-        console.log(res,"res");
+      console.log(res, "res");
       setNewComment("");
       setComments((prevComments) => prevComments.concat(res.data));
     });
   };
   const deleteComm = (id, postId) => {
-     deleteComment( id, postId ).then(() => {
-          setComments(prevComments => {
-              return prevComments.filter(com => com.comments._id !== id);
-          });
-      })
-  }
-  const [editcomment, setEditcomment] = useState({})
+    deleteComment(id, postId).then(() => {
+      setComments((prevComments) => {
+        return prevComments.filter((com) => com.comments._id !== id);
+      });
+    });
+  };
+  const [editcomment, setEditcomment] = useState({});
   const editComment = (com, postId) => {
-      setNewComment(com.comments.comment)
-      inputRef.current?.focus();
-      setCommentEdit(true)
-      setTooltip(true)
-      setEditcomment(com.comments._id)
-
-  }
+    setNewComment(com.comments.comment);
+    inputRef.current?.focus();
+    setCommentEdit(true);
+    setTooltip(true);
+    setEditcomment(com.comments._id);
+  };
   const handleUpdate = () => {
-    updateComment( editcomment, post._id, newComment )
+    updateComment(editcomment, post._id, newComment);
   };
   return (
     <Modal
@@ -137,8 +139,20 @@ const CommentModal = ({ commetModal, setCommentModal, post }) => {
                   <div className={styles.editbutton}>
                     <Button.Group>
                       {/* <ActionIcon variant="light"><EditIcon size="1rem" onClick={() => editComment(comment, post._id)} /></ActionIcon> */}
-                      <ActionIcon variant="light"><EditIcon size="1rem" onClick={() => editComment(comment, post._id)} /></ActionIcon> 
-                                            <ActionIcon variant="light" onClick={() => deleteComm(comment.comments._id, post._id)} ><DeleteIcon size="1rem" /></ActionIcon>
+                      <ActionIcon variant="light">
+                        <EditIcon
+                          size="1rem"
+                          onClick={() => editComment(comment, post._id)}
+                        />
+                      </ActionIcon>
+                      <ActionIcon
+                        variant="light"
+                        onClick={() =>
+                          deleteComm(comment.comments._id, post._id)
+                        }
+                      >
+                        <DeleteIcon size="1rem" />
+                      </ActionIcon>
                     </Button.Group>
                   </div>
                 ) : null}

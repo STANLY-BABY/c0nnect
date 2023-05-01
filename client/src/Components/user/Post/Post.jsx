@@ -82,9 +82,7 @@ function Post({ data }) {
   const handleClosed = () => {
     setOpen(false);
   };
-  const handleEdit = (id) => {
-    updatePost(id, user._id);
-  };
+
   const handleDelete = (id) => {
     deletePost(id, user._id);
     setOpen(false);
@@ -112,7 +110,7 @@ function Post({ data }) {
   };
   return (
     <>
-      <div className="bg-white h-auto mb-5 mt-5 w-[51rem] myflex  ``  flex-col rounded-xl shadow-md shadow-grey-500/40">
+      <div className="bg-white h-auto mb-5 mt-5 w-[51rem] myflex flex-col rounded-xl shadow-md shadow-grey-500/40">
         <div className="flex w-full px-3 justify-between mt-5">
           <div className="flex ">
             <img
@@ -125,7 +123,7 @@ function Post({ data }) {
               alt="Bordered avatar"
             />
             <div>
-              <p className="text-lg">{data.username || user.username}</p>
+              <p className="text-lg text-start">{data.username || user.username}</p>
               <p className="text-slate-500 text-sm text-start">
                 {format(data.createdAt)}
               </p>
