@@ -10,10 +10,15 @@ function Suggestion() {
   const { user } = useSelector((state) => state.authReducer.authData);
 
   useEffect(() => {
-    console.log('data');
-    const { data } = getAllUser();
-    setPersons(data);
-    console.log(data,"data2");
+    console.log('top');
+    const fetchPersons = async () => {
+      console.log('fetch');
+      const { data } = await getAllUser();
+      setPersons(data);
+      console.log(data,'data');
+    };
+    return(()=>fetchPersons())
+    
   }, []);
   return (
     <div className={style.Suggestion}>
