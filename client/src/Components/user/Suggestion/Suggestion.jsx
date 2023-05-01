@@ -11,12 +11,9 @@ function Suggestion() {
 
   useEffect(() => {
     console.log('data');
-    const fetchPersons = async () => {
-      const { data } = await getAllUser();
-      setPersons(data);
-    };
-    return(()=>fetchPersons())
-    
+    const { data } = getAllUser();
+    setPersons(data);
+    console.log(data,"data2");
   }, []);
   return (
     <div className={style.Suggestion}>
