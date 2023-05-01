@@ -17,8 +17,7 @@ function Suggestion() {
       setPersons(data);
       console.log(data,'data');
     };
-    return(()=>fetchPersons())
-    
+    fetchPersons();
   }, []);
   return (
     <div className={style.Suggestion}>
