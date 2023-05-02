@@ -63,12 +63,12 @@ function UserProfile() {
               className="w-[76rem] h-96 rounded-md"
               alt=""
             />
-            <button className=" absolute right-0 mt-2 bg-[#a974ff] text-white font-medium py-1 px-2  border  border-white rounded">
+            <div  className=" absolute right-0 mt-2 bg-[#a974ff] text-white font-medium py-1 px-2  border  border-white rounded">
               Change CoverPic
               <label htmlFor="coverPic">
                 <input  className="hidden" type="file" id="coverPic" onChange={handleCoverchange} />
               </label>
-            </button>
+            </div>
           </div>
           <div className="relative top-80 left-20 flex ">
             <img
