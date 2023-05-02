@@ -183,7 +183,6 @@ export const unfollowUser = async (req, res) => {
 // updateProfilepicture
 
 export const UpdateProfilePicture = (req, res) => {
-  alert()
   const userId = req.params.id;
   let uniqueCode = uuidv4();
   try {
