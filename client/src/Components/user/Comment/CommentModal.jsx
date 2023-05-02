@@ -48,6 +48,7 @@ const CommentModal = ({ commetModal, setCommentModal, post }) => {
   useEffect(() => {
     const fetchComments = async () => {
         const { data } = await getComments(post._id);
+        console.log(data,'data');
         return data;
     }
     fetchComments().then((data) => {

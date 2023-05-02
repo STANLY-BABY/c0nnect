@@ -30,7 +30,18 @@ const authReducer = (
           },
         },
       };
-
+      case "UPDATE_COVER_PIC_SUCCESS":
+        console.log("cover", action);
+        return {
+          ...state,
+          authData: {
+            ...state.authData,
+            user: {
+              ...state.authData.user,
+              coverPicture: action.payload.file.coverPicture,
+            },
+          },
+        };
     default:
       return state;
   }

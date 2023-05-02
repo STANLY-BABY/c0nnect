@@ -183,8 +183,8 @@ export const unfollowUser = async (req, res) => {
 // updateProfilepicture
 
 export const UpdateProfilePicture = (req, res) => {
+  alert()
   const userId = req.params.id;
-  console.log("update profile picuter", userId);
   let uniqueCode = uuidv4();
   try {
     const uploadParams = {
@@ -214,7 +214,7 @@ export const UpdateProfilePicture = (req, res) => {
             });
             user.profilePicture = url;
           }
-          console.log(user,"22222222");
+          console.log(user, "22222222");
           res.status(200).json(user);
         } catch (error) {
           res.status(500).json(error);
@@ -227,31 +227,49 @@ export const UpdateProfilePicture = (req, res) => {
   }
 };
 
-// updatCoverepicture
+// updatCoverpicture
 
 export const UpdateCoverPicture = (req, res) => {
+  console.log("update cover picuter");
   const userId = req.params.id;
-  console.log("update cover picuter", userId);
   let uniqueCode = uuidv4();
   try {
-    uploadImage("coverpicture", req.file, uniqueCode)
-      .then(async (response) => {
-        console.log(response);
-        const user = await UserModel.findOneAndUpdate(
-          { _id: userId },
-          { $set: { coverPicture: uniqueCode } },
-          { new: true }
-        );
-        if (user.coverPicture)
-          user.coverPicture = await getImageUrl(
-            "coverpicture",
-            user.coverPicture
+    const uploadParams = {
+      Bucket: bucketName,
+      Body: req.file.buffer,
+      Key: `connect/profiles/${uniqueCode}`,
+      ContentType: req.file.mimetype,
+    };
+    s3.putObject(uploadParams, async function (err, data) {
+      if (err) {
+        console.log("error", err);
+      } else {
+        try {
+          const user = await UserModel.findOneAndUpdate(
+            { _id: userId },
+            { $set: { coverPicture: uniqueCode } },
+            { new: true }
           );
-        console.log(user);
-        res.status(200).json(user);
-      })
-      .catch((err) => console.log(err));
+          if (user.coverPicture) {
+            const params = {
+              Bucket: bucketName,
+              Key: `connect/profiles/${user.coverPicture}`,
+            };
+            const command = new GetObjectCommand(params);
+            const url = await getSignedUrl(s3Client, command, {
+              expiresIn: 7200,
+            });
+            user.coverPicture = url;
+          }
+          console.log(user, "222222");
+          res.status(200).json(user);
+        } catch (error) {
+          res.status(500).json(error);
+        }
+      }
+    });
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };

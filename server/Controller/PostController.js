@@ -261,6 +261,7 @@ export const addComment = async (req, res) => {
 // getComment
 
 export const getComment = async (req, res) => {
+ console.log('haha');
   const id = req.params.id;
   try {
     const comments = await PostModel.aggregate([
@@ -291,7 +292,10 @@ export const getComment = async (req, res) => {
         },
       },
     ]);
+    console.log(comments,'comment');
+
     res.status(200).json(comments);
+    console.log(comments,'comment');
   } catch (error) {
     res.status(500).json(error);
   }

@@ -16,15 +16,6 @@ function UserProfile() {
   const [showModal, setShowModal] = useState(false);
   const [image, setImage] = useState(null);
   const [cover, setCover] = useState(false);
-
-  // useEffect(()=>{
-  //   const fetchUserPost = async()=>{
-  //     if(profileUserId===user._id){
-  //       setProfileUser(user)
-  //     }
-  //   }
-  // })
-  // const dispatch = useDispatch();
   const [profileUser, setProfileUser] = useState({});
   const { user } = useSelector((state) => state.authReducer.authData);
   useEffect(() => {
@@ -64,14 +55,22 @@ function UserProfile() {
         <div className="h-[550px]">
           <div className="absolute rounded-md">
             <img
-              src="https://timelinecovers.pro/facebook-cover/download/stunning-little-flowers-facebook-cover.jpg"
+              src={
+                user?.coverPicture
+                  ? user.coverPicture
+                  : "https://timelinecovers.pro/facebook-cover/download/stunning-little-flowers-facebook-cover.jpg"
+              }
               className="w-[76rem] h-96 rounded-md"
               alt=""
             />
-            <button>Cover</button>
-            <input type="file" id="coverPic" onChange={handleCoverchange} />
+            <button className=" absolute right-0 mt-2 bg-[#a974ff] text-white font-medium py-1 px-2  border  border-white rounded">
+              Change CoverPic
+              <label htmlFor="coverPic">
+                <input  className="hidden" type="file" id="coverPic" onChange={handleCoverchange} />
+              </label>
+            </button>
           </div>
-          <div class="relative top-80 left-20 flex ">
+          <div className="relative top-80 left-20 flex ">
             <img
               src={
                 user?.profilePicture
@@ -81,17 +80,19 @@ function UserProfile() {
               alt="..."
               className=" shadow rounded-full border-[0.2rem]  border-white  max-w-xl h-44 mt-5 m mr-2 "
             />
-            <button>
-              {" "}
-              {<EditIcon />}
-              {
-                <input
-                  type="file"
-                  id="profilePic"
-                  onChange={handleProfileChange}
-                />
-              }
-            </button>
+            <div className="bg-white w-8 border-2 h-8 rounded-full flex justify-center absolute mt-36 ml-[8.5rem]">
+              <label htmlFor="profilePic">
+                {<EditIcon sx={{ color: "#212121" }} />}
+                {
+                  <input
+                    type="file"
+                    id="profilePic"
+                    onChange={handleProfileChange}
+                    className="hidden"
+                  />
+                }
+              </label>
+            </div>
 
             {showModal ? (
               <UpdateUserImages

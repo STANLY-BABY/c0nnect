@@ -108,13 +108,14 @@ function Post({ data }) {
     reportPost(data._id, report);
     handleReportClose();
   };
+  const [dropActive, setDropActive] = useState(false);
   return (
     <>
       <div className="bg-white h-auto mb-5 mt-5 w-[51rem] myflex flex-col rounded-xl shadow-md shadow-grey-500/40">
         <div className="flex w-full px-3 justify-between mt-5">
           <div className="flex ">
             <img
-              class=" w-12 mx-5 h-12 p-0.5 rounded-full ring-2 ring-pink-600 dark:ring-pink-600"
+              className=" w-12 mx-5 h-12 p-0.5 rounded-full ring-2 ring-pink-600 dark:ring-pink-600"
               src={
                 user?.profilePicture
                   ? user.profilePicture
@@ -123,7 +124,9 @@ function Post({ data }) {
               alt="Bordered avatar"
             />
             <div>
-              <p className="text-lg text-start">{data.username || user.username}</p>
+              <p className="text-lg text-start">
+                {data.username || user.username}
+              </p>
               <p className="text-slate-500 text-sm text-start">
                 {format(data.createdAt)}
               </p>
@@ -309,19 +312,19 @@ function Post({ data }) {
           </div>
 
           <div className=" flex  mx-5 mb-4">
-            <div class="flex -space-x-4 cursor-pointer">
+            <div className="flex -space-x-4 cursor-pointer">
               <img
-                class="w-7 h-7 border-2 border-white rounded-full dark:border-white-500"
+                className="w-7 h-7 border-2 border-white rounded-full dark:border-white-500"
                 src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
                 alt=""
               />
               <img
-                class="w-7 h-7 border-2 border-white rounded-full dark:border-white-500"
+                className="w-7 h-7 border-2 border-white rounded-full dark:border-white-500"
                 src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
                 alt=""
               />
               <img
-                class="w-7 h-7 border-2 border-white rounded-full dark:border-white-500"
+                className="w-7 h-7 border-2 border-white rounded-full dark:border-white-500"
                 src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
                 alt=""
               />
@@ -329,10 +332,10 @@ function Post({ data }) {
             <div>
               {liked ? (
                 <>
-                  <span class="font-semibold  text-slate-900 text-md mx-1">
+                  <span className="font-semibold  text-slate-900 text-md mx-1">
                     You{" "}
                   </span>
-                  <span class="font-thin  text-slate-500 text-md mr-1">
+                  <span className="font-thin  text-slate-500 text-md mr-1">
                     and
                   </span>
                 </>
@@ -340,11 +343,11 @@ function Post({ data }) {
                 <></>
               )}
 
-              <span class="font-semibold  text-slate-900 text-md mr-1">
+              <span className="font-semibold  text-slate-900 text-md mr-1">
                 {" "}
-                {liked?likes-1:likes} others
+                {liked ? likes - 1 : likes} others
               </span>
-              <span class="font-thin  text-slate-500 text-md mr-1">
+              <span className="font-thin  text-slate-500 text-md mr-1">
                 liked this.
               </span>
             </div>
