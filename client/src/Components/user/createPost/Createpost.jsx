@@ -4,14 +4,13 @@ import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadPost } from "../../../actions/uploadAction";
-function Createpost({profileData}) {
+function Createpost({ profileData }) {
   const { user } = useSelector((state) => state.authReducer.authData);
   const dispatch = useDispatch();
   // const loading = useSelector((state) => state.upload.uploading)
   const [image, setImage] = useState(null);
   const imageRef = useRef();
   const descRef = useRef();
-
   const validFileTypes = ["image/jpg", "image/jpeg", "image/png"];
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -30,6 +29,7 @@ function Createpost({profileData}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (image) {
       const data = new FormData();
       const filename = Date.now() + image.name;
@@ -38,6 +38,12 @@ function Createpost({profileData}) {
       data.append("name", filename);
       data.append("file", image);
       dispatch(uploadPost(data));
+    } else {
+      const data = new FormData();
+      data.append("userId", user._id);
+      data.append("desc", descRef.current.value);
+      console.log(data.desc,'dataimg');
+      dispatch(uploadPost(data));
     }
     reset();
   };
@@ -45,9 +51,12 @@ function Createpost({profileData}) {
   return (
     <div className="bg-white rounded-xl mt-3 h-33 w-[51rem] shadow-md shadow-grey-500/40">
       <div className="flex justify-center pt-5">
-        
         <img
-          src=  {profileData?.profilePicture ? profileData?.profilePicture :"https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"}
+          src={
+            user?.profilePicture
+              ? user?.profilePicture
+              : "https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
+          }
           alt="..."
           className=" shadow rounded-full border-2 border-pink-400 max-w-full h-auto  w-14 mr-5 "
         />
@@ -57,7 +66,7 @@ function Createpost({profileData}) {
           className="shadow border-blue-200 appearance-none border rounded-full w-[40rem] h-12 py-2 px-3  leading-tight focus:outline-none focus:shadow-outline font-medium"
           type="text"
           placeholder="Whats on your Mind, User_name ?"
-          name='desc'
+          name="desc"
         />
       </div>
       <div className="flex justify-center m-4 ">

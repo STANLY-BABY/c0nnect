@@ -47,13 +47,13 @@ const CommentModal = ({ commetModal, setCommentModal, post }) => {
 
   useEffect(() => {
     const fetchComments = async () => {
-      const { data } = await getComments(post._id);
-
-      setComments(data);
-      return;
-    };
-    return () => fetchComments();
-  }, []);
+        const { data } = await getComments(post._id);
+        return data;
+    }
+    fetchComments().then((data) => {
+        setComments(data)
+    })
+}, [])
 
   //   useEffect(() => {
   //     if (lastCommentRef.current) {
@@ -138,7 +138,6 @@ const CommentModal = ({ commetModal, setCommentModal, post }) => {
                 {user._id === comment.comments.userId ? (
                   <div className={styles.editbutton}>
                     <Button.Group>
-                      {/* <ActionIcon variant="light"><EditIcon size="1rem" onClick={() => editComment(comment, post._id)} /></ActionIcon> */}
                       <ActionIcon variant="light">
                         <EditIcon
                           size="1rem"

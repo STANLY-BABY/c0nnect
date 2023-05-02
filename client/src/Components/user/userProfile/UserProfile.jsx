@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import Post from "../../user/Post/Post";
 import { getPosts } from "../../Admin/api/request";
 import UpdateUserImages from "../userimageupdate/UpdateUserImages";
-
+import EditIcon from "@mui/icons-material/Edit";
 function UserProfile() {
   const params = useParams();
   const profileUserId = params.id;
@@ -81,18 +81,28 @@ function UserProfile() {
               alt="..."
               className=" shadow rounded-full border-[0.2rem]  border-white  max-w-xl h-44 mt-5 m mr-2 "
             />
-            <button><input type="file" id="profilePic" onChange={handleProfileChange} /></button>
-            
-              {showModal ? (
-                <UpdateUserImages
-                  showModal={showModal}
-                  setShowModal={setShowModal}
-                  image={image}
-                  cover={cover}
+            <button>
+              {" "}
+              {<EditIcon />}
+              {
+                <input
+                  type="file"
+                  id="profilePic"
+                  onChange={handleProfileChange}
                 />
-              ) : (
-                ""
-              )}
+              }
+            </button>
+
+            {showModal ? (
+              <UpdateUserImages
+                showModal={showModal}
+                setShowModal={setShowModal}
+                image={image}
+                cover={cover}
+              />
+            ) : (
+              ""
+            )}
             <div className="">
               <p className="mt-24 ml-3 text-2xl font-semibold ">
                 {user.username}
