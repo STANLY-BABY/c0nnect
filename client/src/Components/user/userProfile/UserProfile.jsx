@@ -64,8 +64,9 @@ function UserProfile() {
               alt=""
             />
             <div  className=" absolute right-0 mt-2 bg-[#a974ff] text-white font-medium py-1 px-2  border  border-white rounded">
-              Change CoverPic
+          
               <label htmlFor="coverPic">
+              Change CoverPic
                 <input  className="hidden" type="file" id="coverPic" onChange={handleCoverchange} />
               </label>
             </div>
@@ -78,7 +79,7 @@ function UserProfile() {
                   : "https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
               }
               alt="..."
-              className=" shadow rounded-full border-[0.2rem]  border-white  max-w-xl h-44 mt-5 m mr-2 "
+              className=" shadow rounded-full border-[0.2rem]  border-white  max-w-xl max-h-44 mt-5 m mr-2 "
             />
             <div className="bg-white w-8 border-2 h-8 rounded-full flex justify-center absolute mt-36 ml-[8.5rem]">
               <label htmlFor="profilePic">
