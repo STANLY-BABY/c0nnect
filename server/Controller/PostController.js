@@ -180,11 +180,6 @@ export const getTimelinePosts = async (req, res) => {
       {
         $unwind: "$followingPosts",
       },
-      // {
-      //   $match: {
-      //     "followingPosts.blocked": false,
-      //   },
-      // },
       {
         $project: {
           _id: "$followingPosts._id",
