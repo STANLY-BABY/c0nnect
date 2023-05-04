@@ -9,6 +9,7 @@ function Conversation({ data, currentUserId ,online }) {
       try {
         const { data } = await getUser(userId);
         setUserData(data);
+        console.log(data,"data");
       } catch (error) {
         console.log(error);
       }
@@ -28,7 +29,7 @@ function Conversation({ data, currentUserId ,online }) {
         />
         </div>
         <div className="flex flex-col">
-            <span className="font-semibold text-slate-700 text-lg ml-2 max-w-[3rem]">{userData?.username}</span>
+            <span className="font-semibold text-slate-700 text-lg ml-2 max-w-[3rem]">{data?.userId}</span>
             <span className="text-slate-500 ml-2">{online?"Online":"Offline"}</span>
         </div>
       </div>

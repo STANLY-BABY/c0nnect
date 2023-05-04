@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { addMessage, getMessages } from "../../api/MessageRequests";
 import { getUser } from "../../api/UserRequest";
 import { format } from "timeago.js";
@@ -61,6 +61,10 @@ function ChatBox({ chat, currentUser, setSendMessage, receiveMessage }) {
       console.log(error);
     }
   };
+  const scroll = useRef();
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
   return (
     <>
       <div className="rounded-2xl grid grid-rows-[14vh 60vh 13vh] ">
@@ -101,13 +105,14 @@ function ChatBox({ chat, currentUser, setSendMessage, receiveMessage }) {
                 messages?.map((message) => (
                   <>
                     <div
+                      ref={scroll}
                       className={
                         message.senderId === currentUser
                           ? "place-items-end grid-cols-[1fr auto] grid gap-x-3 pt-1 pb-1 "
                           : "place-items-start grid-cols-[1fr auto] grid gap-x-3 pt-1 pb-1 "
                       }
                     >
-                      <div className="relative block w-fit px-4 py-2 max-w-[90%] min-h-8 min-w-8 bg-slate-600 rounded-3xl ">
+                      <div className=" relative block w-fit px-4 py-2 max-w-[90%] min-h-8 min-w-8 backdrop-blur-sm text-slate-500 bg-white/30 rounded-3xl ">
                         <span>{message.text}</span>{" "}
                       </div>
                       <div className="chat-header">
@@ -123,14 +128,17 @@ function ChatBox({ chat, currentUser, setSendMessage, receiveMessage }) {
             <div className="chat-sender">
               <div>+</div>
               <InputEmoji value={newMessage} onChange={handleChange} />
-              <div className="send-button button cursor-pointer" onClick={handleSent}>
+              <div
+                className="button p-6 cursor-pointer text-lg bg-gradient-to-r from-l-pink to-l-blue text-white font-medium rounded-md"
+                onClick={handleSent}
+              >
                 Send
               </div>
               <input type="file" name="" id="" style={{ display: "none" }} />
             </div>{" "}
           </>
         ) : (
-          <span className="chatbox-empty-message">
+          <span className="h-[100vh] chatbox-empty-message">
             Tap on a chat to start conversation...
           </span>
         )}

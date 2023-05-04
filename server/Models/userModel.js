@@ -9,12 +9,10 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     phonenumber: {
       type: Number,
       unique: true,
-      required: true,
     },
     isAdmin: {
       type: Boolean,
@@ -26,15 +24,13 @@ const userSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      unique: true,
-      required: true,
+      unique: true
     },
     gender: {
       type: String,
     },
     dateOfBirth: {
-      type: Date,
-      required: true,
+      type: Date
     },
     Realtionship: {
       type: String,
@@ -57,6 +53,10 @@ const userSchema = mongoose.Schema(
     about: {
       type: String,
     },
+    googleId: {
+      type: String,
+      unique: true,
+  },
     following: [],
     followers: [],
   },

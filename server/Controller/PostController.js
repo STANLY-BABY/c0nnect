@@ -195,8 +195,7 @@ export const getTimelinePosts = async (req, res) => {
           createdAt: "$followingPosts.createdAt",
           updatedAt: "$followingPosts.updatedAt",
           username: "$followingPosts.user.username",
-          firstname: "$followingPosts.user.firstname",
-          lastname: "$followingPosts.user.lastname",
+
         },
       },
     ]);
@@ -213,6 +212,7 @@ export const getTimelinePosts = async (req, res) => {
       const url = await getSignedUrl(s3Client, command, { expiresIn: 7200 });
       post.image = url;
     }
+
     res.status(200).json(allPosts);
   } catch (error) {
     console.log(error);

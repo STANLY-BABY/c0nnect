@@ -30,18 +30,21 @@ const authReducer = (
           },
         },
       };
-      case "UPDATE_COVER_PIC_SUCCESS":
-        console.log("cover", action);
-        return {
-          ...state,
-          authData: {
-            ...state.authData,
-            user: {
-              ...state.authData.user,
-              coverPicture: action.payload.file.coverPicture,
-            },
+    case "UPDATE_COVER_PIC_SUCCESS":
+      return {
+        ...state,
+        authData: {
+          ...state.authData,
+          user: {
+            ...state.authData.user,
+            coverPicture: action.payload.file.coverPicture,
           },
-        };
+        },
+      };
+    case "GOOGLE_AUTH_SUCCESS":
+      console.log("googleaction", action);
+      localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
+      return { ...state, authData: action.data, loading: false, error: false };
     default:
       return state;
   }

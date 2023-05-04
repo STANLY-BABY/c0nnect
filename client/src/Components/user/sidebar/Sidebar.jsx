@@ -1,8 +1,6 @@
 import "./sidebar.css";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Link } from "react-router-dom";
@@ -70,16 +68,24 @@ function Sidebar() {
 
         </div>
         <div>
-          <p className="my-7 font-semibold">Account!</p>
+          <p className="my-7 font-semibold">Account</p>
 
+
+          <Link
+            to={`/profile/${user._id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
           <div className="flex ">
             <img
-              src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
+              src={
+                user?.profilePicture ? user?.profilePicture :"https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
+              }
               alt="..."
               className="shadow rounded-full max-w-[3.5rem] h-auto border-none "
-            />
+              />
             <p className="ml-2 mt-4 text-lg ">{user.username}</p>
           </div>
+              </Link>
         </div>
       </div>
     </div>

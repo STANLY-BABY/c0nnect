@@ -1,3 +1,4 @@
+import { async } from 'react-input-emoji';
 import * as AuthApi from '../api/AuthRequest'
 
 export const logIn = (formData) => async (dispatch) => {
@@ -34,3 +35,13 @@ export const AdminLogIn = (formData) => async (dispatch) => {
     }
   };
   
+  export const googleRegister =(credential)=>async(dispatch)=>{
+    dispatch({type:"GOOGLE_AUTH_START"});
+    try {
+      const {data} =await AuthApi.googleRegister(credential)
+      dispatch({type:"GOOGLE_AUTH_SUCCESS",data:data})
+    } catch (error) {
+      console.log(error);
+      dispatch({type:"GOOGLE_AUTH_FAIL"})
+    }
+  }

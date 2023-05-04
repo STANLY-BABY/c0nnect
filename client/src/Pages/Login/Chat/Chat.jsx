@@ -33,6 +33,7 @@ function Chat() {
       setRecieveMessage(data);
     });
   }, []);
+  
 
   useEffect(() => {
     const getChats = async () => {
@@ -55,7 +56,7 @@ function Chat() {
     return online ? true : false;
   };
   return (
-    <div className="Chat">
+    <div className="Chat ">
       {/* left side */}
       <div className="Left-side-chat">
         <div className="search flex justify-center mt-10 mb-8">
@@ -67,7 +68,7 @@ function Chat() {
           />
         </div>
 
-        <h2 className="mb-5">Chats</h2>
+        <h2 className="mb-5 ml-5 text-2xl h-full">Chats</h2>
         <div className="Chat-list">
           {chats.map((chat) => (
             <div onClick={() => setCurrentChat(chat)}>
@@ -80,7 +81,7 @@ function Chat() {
           ))}
         </div>
       </div>
-      <div className="Right-side-chat">
+      <div className="Right-side-chat bg-gradient-to-r from-l-pink to-l-blue text-white">
         <ErrorBoundary>
           <ChatBox
             chat={currentChat}

@@ -1,6 +1,7 @@
 import UserModel from "../Models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import jwt_decode from "jwt-decode";
 import {
   S3Client,
   PutObjectCommand,
@@ -99,6 +100,49 @@ export const loginUser = async (req, res) => {
       }
     } else {
       res.status(400).json("User not found");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const googleRegister = async (req, res) => {
+  console.log(req.body, "body");
+  const { credential } = req.body;
+  try {
+    let decoded = await jwt_decode(credential);
+  
+    const { given_name, email, sub } = decoded;
+    const user = await UserModel.findOne({ googleId: sub });
+    if (user) {
+      const token = jwt.sign(
+        {
+          username: user.username,
+          id: user._id,
+        },
+        process.env.JWT_SEC,
+        { expiresIn: "1h" }
+      );
+      console.log("00000000", user,token);
+      res.status(200).json({ user, token });
+    } else {
+      const newUser = new UserModel({
+        email: email,
+        username: given_name,
+        googleId: sub,
+        expiresAt: null,
+      });
+      const user = await newUser.save();
+      const token = jwt.sign(
+        {
+          username: user.username,
+          id: user._id,
+        },
+        process.env.JWT_SEC,
+        { expiresIn: "1h" }
+      );
+      res.status(200).json({ user, token });
     }
   } catch (error) {
     console.log(error);

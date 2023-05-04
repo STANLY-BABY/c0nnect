@@ -1,11 +1,12 @@
 import React, { useReducer } from "react";
 import "./signupRight.css";
 import { Link } from "react-router-dom";
-import { signUp } from "../../actions/authAction";
+import { googleRegister, signUp } from "../../actions/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {signupvalidationSchema} from '../../Pages/Login/Userauthvalid.js'
+import { useGoogleLogin, GoogleLogin } from '@react-oauth/google';
 function SignupRight() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.authReducer.loading);
@@ -124,7 +125,7 @@ function SignupRight() {
           </button>
         </form>
         <p className="my-1">OR</p>
-        <button
+        {/* <button
           type="button"
           className="myflex  w-80 p-1 border-2 rounded-[10px] border-gray-200"
         >
@@ -134,7 +135,13 @@ function SignupRight() {
             alt="Google Logo"
           />
           <p className="">Sign in with Google</p>
-        </button>
+        </button> */}
+                 <GoogleLogin
+              onSuccess={credentialResponse => {
+                console.log('google',credentialResponse);
+                dispatch(googleRegister(credentialResponse))
+              }}
+            />
         <p className="mt-3">
           Already have an account ?
           <Link to="/" className="text-blue-700">

@@ -126,6 +126,20 @@ export const getAllUsers = async (req, res) => {
       const { password, ...otherDetails } = user._doc;
       return otherDetails;
     });
+    for (const user of users) {
+      if (user.profilePicture) {
+        const params = {
+          Bucket: bucketName,
+          Key: `connect/profiles/${user.profilePicture}`,
+        };
+        const command = new GetObjectCommand(params);
+        const url = await getSignedUrl(s3Client, command, {
+          expiresIn: 7200,
+        });
+        user.profilePicture = url;
+      }
+    }
+    // console.log(users,'users');
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json(error);

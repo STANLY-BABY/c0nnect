@@ -63,11 +63,15 @@ function UserProfile() {
               className="w-[76rem] h-96 rounded-md"
               alt=""
             />
-            <div  className=" absolute right-0 mt-2 bg-[#a974ff] text-white font-medium py-1 px-2  border  border-white rounded">
-          
-              <label htmlFor="coverPic">
-              Change CoverPic
-                <input  className="hidden" type="file" id="coverPic" onChange={handleCoverchange} />
+            <div className="z-[100] cursor-pointer absolute flex justify-center right-0 mt-2 bg-[#a974ff] text-white font-medium py-1 px-2  border  border-white rounded">
+              <label htmlFor="coverPic" className="cursor-pointer">
+                Change CoverPic
+                <input
+                  className="hidden cursor-pointer"
+                  type="file"
+                  id="coverPic"
+                  onChange={handleCoverchange}
+                />
               </label>
             </div>
           </div>
@@ -79,17 +83,22 @@ function UserProfile() {
                   : "https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
               }
               alt="..."
-              className=" shadow rounded-full border-[0.2rem]  border-white  max-w-xl max-h-44 mt-5 m mr-2 "
+              className=" shadow rounded-full border-[0.2rem]  border-white  min-h-44 min-w-44 max-w-44 max-h-44 mt-5 mr-2 "
             />
-            <div className="bg-white w-8 border-2 h-8 rounded-full flex justify-center absolute mt-36 ml-[8.5rem]">
+            <div className="bg-white w-8 border-2 cursor-pointer h-8 rounded-full flex justify-center absolute mt-36 ml-[8.5rem]">
               <label htmlFor="profilePic">
-                {<EditIcon sx={{ color: "#212121" }} />}
+                {
+                  <EditIcon
+                    sx={{ color: "#212121" }}
+                    className="cursor-pointer"
+                  />
+                }
                 {
                   <input
                     type="file"
                     id="profilePic"
                     onChange={handleProfileChange}
-                    className="hidden"
+                    className="hidden cursor-pointer"
                   />
                 }
               </label>

@@ -42,7 +42,7 @@ function App() {
           path="/chat"
           element={user ? <Chat /> : <Navigate to="../login" />}
         />
-        <Route path="/register" element={<SignUp />} />
+        <Route path="/register" element={user? <Navigate to="../home"/>:<SignUp/>} />
         <Route path="/adminhome" element={<AdminHome />} />
         <Route path="/profile/:id" element={user ? <UserProfile  />: <Navigate to="../login"/>} />
         <Route path="/test" element={<Test />} />
