@@ -17,7 +17,14 @@ const app = express();
 //Middleware
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+// app.use(cors());
+app.use(cors({origin:[
+  "https://c0nnect.tech",
+  "http://c0nnect.tech",
+  "http://localhost:3000",
+  "https://api.c0nnect.tech",
+  "*"
+]}))
 dotenv.config();
 
 mongoose
