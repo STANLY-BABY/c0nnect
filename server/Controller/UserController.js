@@ -139,7 +139,6 @@ export const getAllUsers = async (req, res) => {
         user.profilePicture = url;
       }
     }
-    // console.log(users,'users');
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json(error);
