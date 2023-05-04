@@ -96,6 +96,19 @@ export const loginUser = async (req, res) => {
           console.log(url, "<><>>>");
           user.profilePicture = url;
         }
+        if (user.coverPicture) {
+          console.log("////////");
+          const params = {
+            Bucket: bucketName,
+            Key: `connect/profiles/${user.coverPicture}`,
+          };
+          const command = new GetObjectCommand(params);
+          const url = await getSignedUrl(s3Client, command, {
+            expiresIn: 7200,
+          });
+          console.log(url, "<><>>>");
+          user.coverPicture = url;
+        }
         res.status(200).json({ user, token });
       }
     } else {
