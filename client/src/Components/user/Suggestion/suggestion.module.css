@@ -8,6 +8,7 @@
     background-color: white;
     color: themed("textColor");
     border-radius: 0 0 0 10px;
+    width: 21rem;
 }
 
 ::-webkit-scrollbar {

@@ -8,7 +8,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
   const online = false;
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState("s");
 
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
@@ -19,6 +19,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
     const getUserData = async () => {
       try {
         const { data } = await getUser(userId);
+
         setUserData(data);
       } catch (error) {
         console.log(error);
@@ -38,19 +39,18 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
     };
     if (chat !== null) fetchMessages();
   }, [chat]);
-  
+
   // useEffect(() => {
   //   if (receiveMessage !== null && receiveMessage?.chatId === chat?._id) {
   //     setMessages((prevMessages) => [...prevMessages, receiveMessage]);
   //   }
   // }, [receiveMessage]);
   useEffect(() => {
-    console.log("Message Arrived: ", receiveMessage)
+    console.log("Message Arrived: ", receiveMessage);
     if (receiveMessage !== null && receiveMessage.chatId === chat._id) {
-        setMessages([...messages, receiveMessage]);
+      setMessages([...messages, receiveMessage]);
     }
-
-}, [receiveMessage])
+  }, [receiveMessage]);
   //
   const handleSent = async (e) => {
     e.preventDefault();
@@ -86,10 +86,8 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
                   <img
                     src={
                       userData?.user?.profilePicture
-                        ? process.env.REACT_APP_PUBLIC_FOLDER +
-                        userData?.user?.profilePicture
-                        : process.env.REACT_APP_PUBLIC_FOLDER +
-                          "defaultProfile.png"
+                        ? userData?.user?.profilePicture
+                        : "defaultProfile.png"
                     }
                     alt=""
                     className="followerImage"

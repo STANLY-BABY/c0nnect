@@ -170,6 +170,27 @@ export const followUser = async (req, res) => {
 
 //unfollow user
 
+// export const unfollowUser = async (req, res) => {
+//   const id = req.params.id;
+//   const { _id } = req.body;
+//   if (_id === id) {
+//     res.status(403).json("Action forbidden");
+//   } else {
+//     try {
+//       const followUser = await UserModel.findById(id);
+//       const followingUser = await UserModel.findById(_id);
+//       if (followUser.followers.includes(_id)) {
+//         await followUser.updateOne({ $pull: { followers: _id } });
+//         await followingUser.updateOne({ $pull: { following: id } });
+//         res.status(200).json("user unfollowed");
+//       } else {
+//         res.status(403).json("user not followed");
+//       }
+//     } catch (error) {
+//       res.status(500).json(error);
+//     }
+//   }
+// };
 export const unfollowUser = async (req, res) => {
   const id = req.params.id;
   const { _id } = req.body;
@@ -177,11 +198,17 @@ export const unfollowUser = async (req, res) => {
     res.status(403).json("Action forbidden");
   } else {
     try {
-      const followUser = await UserModel.findById(id);
-      const followingUser = await UserModel.findById(_id);
-      if (followUser.followers.includes(_id)) {
-        await followUser.updateOne({ $pull: { followers: _id } });
-        await followingUser.updateOne({ $pull: { following: id } });
+      const followUser = await UserModel.findOneAndUpdate(
+        { _id: id },
+        { $pull: { followers: _id } },
+        { new: true }
+      );
+      const followingUser = await UserModel.findOneAndUpdate(
+        { _id: _id },
+        { $pull: { following: id } },
+        { new: true }
+      );
+      if (followUser && followingUser) {
         res.status(200).json("user unfollowed");
       } else {
         res.status(403).json("user not followed");
@@ -191,7 +218,6 @@ export const unfollowUser = async (req, res) => {
     }
   }
 };
-
 // updateProfilepicture
 
 export const UpdateProfilePicture = (req, res) => {

@@ -27,15 +27,9 @@ import Box from "@mui/material/Box";
 import { getReports, reportPost } from "../../../api/ReportRequest";
 
 function Post({ data }) {
-  const [reportData, setReportdata] = useState([]);
-  useEffect(() => {
-    const fetchReports = async () => {
-      const { data } = await getReports();
-      setReportdata(data);
-    };
-    return () => fetchReports();
-  }, []);
 
+
+  const [reportData, setReportdata] = useState([]);
   const { user } = useSelector((state) => state.authReducer.authData);
   const [liked, setLiked] = useState(data.likes.includes(user._id));
   const [likes, setLikes] = useState(data.likes.length);
@@ -59,6 +53,15 @@ function Post({ data }) {
     boxShadow: 24,
     p: 4,
   };
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      const { data } = await getReports();
+      setReportdata(data);
+    };
+    fetchReports();
+  }, []);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -108,7 +111,6 @@ function Post({ data }) {
     reportPost(data._id, report);
     handleReportClose();
   };
-  const [dropActive, setDropActive] = useState(false);
   return (
     <>
       <div className="bg-white h-auto mb-5 mt-5 w-[51rem] myflex flex-col rounded-xl shadow-md shadow-grey-500/40">
@@ -117,7 +119,7 @@ function Post({ data }) {
             <img
               className=" w-12 mx-5 h-12 p-0.5 rounded-full ring-2 ring-pink-600 dark:ring-pink-600"
               src={
-                user._id===user.userId
+                data.userId === user._id
                   ? user.profilePicture
                   : "https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
               }

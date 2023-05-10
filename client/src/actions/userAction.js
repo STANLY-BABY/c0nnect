@@ -4,6 +4,7 @@ export const followUser = (id, data) => async (dispatch) => {
   UserApi.followUser(id, data);
 };
 export const unfollowUser = (id, data) => async (dispatch) => {
+  alert('hi')
   dispatch({ type: "UNFOLLOW_USER" });
   UserApi.unfollowUser(id, data);
 };

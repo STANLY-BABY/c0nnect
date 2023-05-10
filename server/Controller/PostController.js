@@ -126,14 +126,31 @@ export const likePost = async (req, res) => {
     res.status(500).json(error);
   }
 };
-
 export const userPosts = async (req, res) => {
   const userId = req.params.id;
   try {
     const currentUserPosts = await PostModel.find({ userId: userId });
+    for (let i = 0; i < currentUserPosts.length; i++) {
+      const post = currentUserPosts[i];
+      post.image = `https://learnreactbrocamp.s3.ap-northeast-1.amazonaws.com/connect/${post.image}`;
+      const user = await UserModel.findById(post.userId);
+      post.user = user;
+    }
     res.status(200).json(currentUserPosts);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching posts." });
+  }
 };
+// export const userPosts = async (req, res) => {
+//   const userId = req.params.id;
+//   try {
+//     const currentUserPosts = await PostModel.find({ userId: userId });
+//     for (const userId of currentUserPosts) {
+//       userId.image = `https://learnreactbrocamp.s3.ap-northeast-1.amazonaws.com/connect/${userId.image}`;
+//     }
+//     res.status(200).json(currentUserPosts);
+//   } catch (error) {}
+// };
 // Get Timeline
 export const getTimelinePosts = async (req, res) => {
   const userId = req.params.id;

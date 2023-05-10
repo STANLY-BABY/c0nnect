@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import style from "./suggestion.module.css";
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import User from "./User";
 import { useSelector } from "react-redux";
 import { getAllUser } from "../../../api/UserRequest";
@@ -28,9 +27,7 @@ function Suggestion() {
       </div>
       <div className="flex justify-center">
         <p className="font-medium mr-12">Suggestions For You </p>
-        <a className="text-sky-500" href="#">
-          See All
-        </a>
+
       </div>
       {persons.map((person, id) => {
         if (person._id !== user._id) {

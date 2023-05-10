@@ -1,7 +1,7 @@
 import Createpost from "../createPost/Createpost";
 import Sidebar from "../sidebar/Sidebar";
 import ProfileCard from "./ProfileCard";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as UserApi from "../../../api/UserRequest.js";
 import React, { useEffect, useState } from "react";
