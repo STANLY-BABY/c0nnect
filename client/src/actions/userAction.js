@@ -19,7 +19,6 @@ export const updateProfilePic = (id, imageData) => async (dispatch) => {
     //   const { data: updatedData } = await
 
        UserApi.updateProfilePic(id, imageData).then((resp)=>{
-        console.log(resp.profilePicture,"resp data")
         dispatch({ type: "UPDATE_PROFILE_PIC_SUCCESS", payload: { id: id, file:resp} });
        })
     } catch (error) {

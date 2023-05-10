@@ -6,7 +6,7 @@ function AdminHome() {
   return (
     <div className="flex">
       <AdminSidebar />
-      <Dashboard />
+      {/* <Dashboard /> */}
     </div>
   );
 }

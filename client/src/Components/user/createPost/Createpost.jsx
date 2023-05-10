@@ -42,7 +42,6 @@ function Createpost({ profileData }) {
       const data = new FormData();
       data.append("userId", user._id);
       data.append("desc", descRef.current.value);
-      console.log(data.desc,'dataimg');
       dispatch(uploadPost(data));
     }
     reset();

@@ -66,7 +66,6 @@ export const getUserDetails = async (req, res) => {
         user: otherDetails,
         userPosts: currentUserPosts,
       };
-      console.log(userDetails);
       res.status(200).json(userDetails);
     } else {
       res.status(404).json("user not found");
@@ -226,7 +225,6 @@ export const UpdateProfilePicture = (req, res) => {
             });
             user.profilePicture = url;
           }
-          console.log(user, "22222222");
           res.status(200).json(user);
         } catch (error) {
           res.status(500).json(error);
@@ -242,7 +240,6 @@ export const UpdateProfilePicture = (req, res) => {
 // updatCoverpicture
 
 export const UpdateCoverPicture = (req, res) => {
-  console.log("update cover picuter");
   const userId = req.params.id;
   let uniqueCode = uuidv4();
   try {
@@ -273,7 +270,6 @@ export const UpdateCoverPicture = (req, res) => {
             });
             user.coverPicture = url;
           }
-          console.log(user, "222222");
           res.status(200).json(user);
         } catch (error) {
           res.status(500).json(error);

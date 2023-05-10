@@ -4,10 +4,10 @@ import  pic  from "../../Images/signin.jpg";
 function SignupLeft() {
   return (
     <div className="SignupLeft bg-white w-[40rem] h-[40rem]  myflex items-center flex-col">
-    <div class="header ">
+    <div className="header ">
       <div>
         <svg
-          class="waves"
+          className="waves"
           viewBox="0 24 150 28"
           preserveAspectRatio="none"
           shape-rendering="auto"
@@ -18,7 +18,7 @@ function SignupLeft() {
               d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
             />
           </defs>
-          <g class="parallax">
+          <g className="parallax">
             <use
               href="#gentle-wave"
               x="48"

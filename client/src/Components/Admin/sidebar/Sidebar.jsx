@@ -29,7 +29,6 @@ const sidebarNavItems = [
         to: '/admin/allreports',
         section: 'allreports'
     },
-
 ]
 
 const Sidebar = () => {
@@ -83,9 +82,11 @@ const Sidebar = () => {
                 ))
             }
         </div>
-        {/* <div style={{marginLeft:"20px"}}>
-            <button className='button logout-button' onClick={()=>dispatch(AdminLogOut())}>Logout</button>
-        </div> */}
+        <div>
+            <button className='button logout-button' onClick={()=>{
+                localStorage.clear()
+              }}>Logout</button>
+        </div>
     </div>;
 };
 

@@ -21,7 +21,6 @@ import BlockedUsers from "./Components/Admin/pages/BlockedUsers";
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
   const admintoken = useSelector((state) => state.AdminReducer.authData);
-  console.log(admintoken, "token");
   return (
     <Fragment>
       <Routes>
@@ -51,30 +50,30 @@ function App() {
         />
 
         <Route path="/admin" element={<AdminLayout />}>
-          <Route
+          {/* <Route
             index
             element={
               admintoken ? <Dashboard /> : <Navigate to="../admin/login" />
             }
-          />
+          /> */}
 
           <Route
             path="/admin/users"
             element={
-              admintoken ? <UsersList /> : <Navigate to="../admin/login" />
+              admintoken ? <UsersList /> : <Navigate to="/admin/login" />
             }
           />
           <Route
             path="/admin/allreports"
             element={
-              admintoken ? <Reports /> : <Navigate to="../admin/login" />
+              admintoken ? <Reports /> : <Navigate to="/admin/login" />
             }
           />
 
           <Route
             path="/admin/blockedusers"
             element={
-              admintoken ? <BlockedUsers /> : <Navigate to="../admin/login" />
+              admintoken ? <BlockedUsers /> : <Navigate to="/admin/login" />
             }
           />
         </Route>

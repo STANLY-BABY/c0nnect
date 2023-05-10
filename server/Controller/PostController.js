@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import AWS from "aws-sdk";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import ReportReasonModel from "../Models/reportReasonModel.js";
+import { response } from "express";
 dotenv.config();
 
 const bucketName = process.env.AWS_BUCKET_NAME;
@@ -76,8 +77,6 @@ export const createPost = async (req, res) => {
 
 //update post
 export const updatePost = async (req, res) => {
-  console.log(req.body);
-  console.log("edit");
   const postId = req.params.id;
   const { userId } = req.body;
   try {
@@ -137,7 +136,6 @@ export const userPosts = async (req, res) => {
 };
 // Get Timeline
 export const getTimelinePosts = async (req, res) => {
-  console.log("....", req.params.id);
   const userId = req.params.id;
 
   try {
@@ -190,22 +188,21 @@ export const getTimelinePosts = async (req, res) => {
           createdAt: "$followingPosts.createdAt",
           updatedAt: "$followingPosts.updatedAt",
           username: "$followingPosts.user.username",
-
         },
       },
     ]);
-    const allPosts =currentUserPosts.concat(...followingPosts).sort((a, b) => {
+    const allPosts = currentUserPosts.concat(...followingPosts).sort((a, b) => {
       return b.createdAt - a.createdAt;
-  })
+    });
 
     for (const post of allPosts) {
-      const params = {
-        Bucket: bucketName,
-        Key: `connect/${post.image}`,
-      };
-      const command = new GetObjectCommand(params);
-      const url = await getSignedUrl(s3Client, command, { expiresIn: 7200 });
-      post.image = url;
+      // const params = {
+      //   Bucket: bucketName,
+      //   Key: `connect/${post.image}`,
+      // };
+      // const command = new GetObjectCommand(params);
+      // const url = await getSignedUrl(s3Client, command, { expiresIn: 7200 });
+      post.image = `https://learnreactbrocamp.s3.ap-northeast-1.amazonaws.com/connect/${post.image}`;
     }
 
     res.status(200).json(allPosts);
@@ -245,7 +242,6 @@ export const addComment = async (req, res) => {
         email,
         comments: comm,
       };
-      console.log("new", newComment);
       return res.status(200).json(newComment);
     }
   } catch (error) {
@@ -256,7 +252,7 @@ export const addComment = async (req, res) => {
 // getComment
 
 export const getComment = async (req, res) => {
- console.log('haha');
+  console.log("haha");
   const id = req.params.id;
   try {
     const comments = await PostModel.aggregate([
@@ -287,10 +283,7 @@ export const getComment = async (req, res) => {
         },
       },
     ]);
-    console.log(comments,'comment');
-
     res.status(200).json(comments);
-    console.log(comments,'comment');
   } catch (error) {
     res.status(500).json(error);
   }
@@ -299,7 +292,6 @@ export const getComment = async (req, res) => {
 /// delete comment
 
 export const deleteComment = async (req, res) => {
-  console.log("commmt dlete", req.params);
   const id = req.params.id;
   const postId = req.params.postid;
   try {
@@ -321,7 +313,6 @@ export const deleteComment = async (req, res) => {
 // update comment
 
 export const updateComment = async (req, res) => {
-  console.log("up com", req.body, req.params.id);
   const id = new mongoose.Types.ObjectId(req.params.id);
   const postId = new mongoose.Types.ObjectId(req.params.postid);
   const { comment } = req.body;
@@ -343,7 +334,9 @@ export const updateComment = async (req, res) => {
 export const getReports = async (req, res) => {
   try {
     const reports = await ReportReasonModel.find();
+    console.log(response,"report");
     res.status(200).json(reports);
+
   } catch (error) {
     res.status(500).json(error);
   }
@@ -369,7 +362,7 @@ export const reportPost = async (req, res) => {
       createdAt: new Date(),
     });
     await report.save();
-   
+
     res.status(200).json({ msg: "Thanks fot letting us know" });
   } catch (error) {
     console.log(error);

@@ -84,30 +84,11 @@ export const loginUser = async (req, res) => {
           { expiresIn: "1h" }
         );
         if (user.profilePicture) {
-          console.log("////////");
-          const params = {
-            Bucket: bucketName,
-            Key: `connect/profiles/${user.profilePicture}`,
-          };
-          const command = new GetObjectCommand(params);
-          const url = await getSignedUrl(s3Client, command, {
-            expiresIn: 7200,
-          });
-          console.log(url, "<><>>>");
-          user.profilePicture = url;
+          user.profilePicture = `https://learnreactbrocamp.s3.ap-northeast-1.amazonaws.com/connect/profiles/${user.profilePicture}`;
         }
         if (user.coverPicture) {
-          console.log("////////");
-          const params = {
-            Bucket: bucketName,
-            Key: `connect/profiles/${user.coverPicture}`,
-          };
-          const command = new GetObjectCommand(params);
-          const url = await getSignedUrl(s3Client, command, {
-            expiresIn: 7200,
-          });
-          console.log(url, "<><>>>");
-          user.coverPicture = url;
+        
+          user.coverPicture =  `https://learnreactbrocamp.s3.ap-northeast-1.amazonaws.com/connect/profiles/${user.coverPicture}`;
         }
         res.status(200).json({ user, token });
       }
@@ -121,11 +102,10 @@ export const loginUser = async (req, res) => {
 };
 
 export const googleRegister = async (req, res) => {
-  console.log(req.body, "body");
   const { credential } = req.body;
   try {
     let decoded = await jwt_decode(credential);
-  
+
     const { given_name, email, sub } = decoded;
     const user = await UserModel.findOne({ googleId: sub });
     if (user) {
@@ -137,7 +117,6 @@ export const googleRegister = async (req, res) => {
         process.env.JWT_SEC,
         { expiresIn: "1h" }
       );
-      console.log("00000000", user,token);
       res.status(200).json({ user, token });
     } else {
       const newUser = new UserModel({

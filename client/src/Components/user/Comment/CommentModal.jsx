@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Modal,
   useMantineTheme,
-  ScrollArea,
-  Tooltip,
   Button,
 } from "@mantine/core";
 import { useSelector, useDispatch } from "react-redux";
@@ -48,7 +46,7 @@ const CommentModal = ({ commetModal, setCommentModal, post }) => {
   useEffect(() => {
     const fetchComments = async () => {
         const { data } = await getComments(post._id);
-        console.log(data,'data');
+        console.log(data,'comment');
         return data;
     }
     fetchComments().then((data) => {

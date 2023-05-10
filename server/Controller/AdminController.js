@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import {format} from "timeago.js"
+import { format } from "timeago.js";
 import UserModel from "../Models/userModel.js";
 import PostModel from "../Models/postModel.js";
 import ReportModel from "../Models/reportModel.js";
@@ -45,22 +45,78 @@ export const getDashboard = async (req, res) => {
   }
 };
 
-
-
 export const getAllUsers = async (req, res) => {
   try {
-    let users = await UserModel.find();
-    users = users.map((user) => {
-      const { password, ...otherDetails } = user._doc;
-      const date = new Date(otherDetails.createdAt);
-      const formattedDate = date.toLocaleDateString();
-      return { ...otherDetails, createdAt: formattedDate };
-    });
-    res.status(200).json(users);
+    const { page = 1, limit = 3, search } = req.query;
+    // let search
+    // try {
+    //   search = req.query.search
+
+    // } catch (error) {
+    //   console.log('not able to...')
+    // }
+    let users;
+    let query = {};
+    if (search) {
+      query = { username: { $regex: search, $options: "i" } };
+    }
+    const skip = (page - 1) * limit;
+    try {
+      users = await UserModel.find(query).skip(skip).limit(parseInt(limit));
+    } catch (error) {
+      console.log(error);
+    }
+    const count = await UserModel.countDocuments(query);
+    const totalPages = Math.ceil(count / limit);
+    try {
+      // users = users.map((user) => {
+      //   const { password, ...otherDetails } = user._doc;
+      //   const date = new Date(otherDetails.createdAt);
+      //   const formattedDate = date.toLocaleDateString();
+      //   console.log("try");
+      //   return { ...otherDetails, createdAt: formattedDate };
+      // });
+      const finalData = { users: users, totalPages: totalPages };
+      res.status(200).json(finalData);
+    } catch (error) {
+      res.status(500).json(error);
+      console.log("final error", error.message);
+    }
   } catch (error) {
     res.status(500).json(error);
   }
 };
+
+// export const getAllUsers = async (req, res) => {
+//   try {
+
+//     const { page = 1, limit = 10, search } = req.query;
+//     const skip = (page - 1) * limit;
+//     const query = {};
+
+//     if (search) {
+//       query.$or = [
+//         { username: { $regex: search, $options: 'i' } },
+//         { email: { $regex: search, $options: 'i' } },
+//       ];
+//     }
+
+//     const users = await UserModel.find(query)
+//       .skip(skip)
+//       .limit(parseInt(limit))
+//       .select('-password')
+//       .sort({ createdAt: -1 })
+//       .lean();
+
+//     const count = await UserModel.countDocuments(query);
+
+//     const totalPages = Math.ceil(count / limit);
+
+//     res.status(200).json({ users, totalPages });
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// };
 
 export const adminLogin = (req, res) => {
   const credintials = {
@@ -68,7 +124,6 @@ export const adminLogin = (req, res) => {
     password: "asdfasdf",
   };
   try {
-    console.log("admin login ", req.body);
     const { email, password } = req.body;
     if (email === credintials.email && password === credintials.password) {
       const token = jwt.sign(
@@ -78,7 +133,6 @@ export const adminLogin = (req, res) => {
         process.env.JWT_SEC,
         { expiresIn: "3h" }
       );
-      console.log("token", token);
       return res.status(200).json(token);
     }
     res.status(404).json("username or password is wrong");
@@ -113,33 +167,32 @@ export const getReports = async (req, res) => {
 };
 
 export const blockUser = async (req, res) => {
-    console.log(req.params.id)
-    const id = req.params.id;
-    try {
-        let user = await UserModel.findOne({ _id: id })
-        if (user) {
-            user.isAllowed = !user.isAllowed
-            user = await user.save()
-            return res.status(200).json(user)
-        }
-        res.status(500).json("nouser")
-    } catch (error) {
-        console.log(error)
-        res.status(500).json(error)
+  const id = req.params.id;
+  try {
+    let user = await UserModel.findOne({ _id: id });
+    if (user) {
+      user.isAllowed = !user.isAllowed;
+      user = await user.save();
+      return res.status(200).json(user);
     }
-}
+    res.status(500).json("nouser");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
 
 export const getAllBlockedUsers = async (req, res) => {
-    try {
-       let users = await UserModel.find({ isAllowed: false });
-       console.log(users)
-        users = users.map((user) => {
-            const { password, ...otherDetails } = user._doc;
-            const formattedDate = format(otherDetails.updatedAt)
-            return { ...otherDetails, updatedAt: formattedDate };
-          });
-        res.status(200).json(users)
-    } catch (error) {
-        res.status(500).json(error)
-    }
-}
+  try {
+    let users = await UserModel.find({ isAllowed: false });
+    console.log(users);
+    users = users.map((user) => {
+      const { password, ...otherDetails } = user._doc;
+      const formattedDate = format(otherDetails.updatedAt);
+      return { ...otherDetails, updatedAt: formattedDate };
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};

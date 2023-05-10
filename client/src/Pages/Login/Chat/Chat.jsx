@@ -14,6 +14,9 @@ function Chat() {
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setRecieveMessage] = useState(null);
   const socket = useRef();
+  // useEffect(() => {
+  //   socket.current.emit('new-user-add', user._id)
+  // },[])
   useEffect(() => {
     if (sendMessage !== null) {
       socket.current.emit("send-message", sendMessage);
@@ -22,6 +25,8 @@ function Chat() {
 
   useEffect(() => {
     socket.current = io("http://c0nnect.tech:8800");
+    // socket.current = io("http://localhost:8800");
+
     socket.current.emit("new-user-add", user._id);
     socket.current.on("get-users", (users) => {
       setOnlineUsers(users);
@@ -29,25 +34,34 @@ function Chat() {
   }, [user]);
 
   useEffect(() => {
-    socket.current.on("receive-message", (data) => {
+    socket.current.on("recieve-message", (data) => {
+      console.log("data ", data)
       setRecieveMessage(data);
     });
   }, []);
-  
+  useEffect(() => {
+    if (sendMessage !== null) {
+      socket.current.emit("send-message", sendMessage);
+    }
+  }, [sendMessage]);
+  useEffect(() => {
+    if (sendMessage !== null) {
+      socket.current.emit("send-message", sendMessage);
+    }
+  }, [sendMessage]);
 
   useEffect(() => {
     const getChats = async () => {
       try {
         const { data } = await userChats(user._id);
         setChats(data);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
     };
     getChats();
-  }, [user]);
-
+  }, [user._id]);
+  const [searchQuery, setSearchQuery] = useState("");
   //check user online status
 
   const checkOnlineStatus = (chat) => {
@@ -55,6 +69,7 @@ function Chat() {
     const online = onlineUsers.find((user) => user.userId === chatMember);
     return online ? true : false;
   };
+
   return (
     <div className="Chat ">
       {/* left side */}
@@ -65,13 +80,15 @@ function Chat() {
             id="search"
             type="text"
             placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
         <h2 className="mb-5 ml-5 text-2xl h-full">Chats</h2>
         <div className="Chat-list">
-          {chats.map((chat) => (
-            <div onClick={() => setCurrentChat(chat)}>
+          {chats.map((chat,index) => (
+            <div key={index} onClick={() => setCurrentChat(chat)}>
               <Conversation
                 data={chat}
                 currentUser={user._id}

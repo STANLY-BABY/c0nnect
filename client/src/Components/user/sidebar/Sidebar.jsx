@@ -3,10 +3,11 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 function Sidebar() {
   const { user } = useSelector((state) => state.authReducer.authData);
+  const navigate = useNavigate();
   return (
     <div className="Sidebar shadow-lg shadow-indigo-500/40">
       <div className="container">
@@ -31,10 +32,7 @@ function Sidebar() {
               <span>Friends</span>
             </div>
           </Link> */}
-          <Link
-            to="/chat"
-            style={{ textDecoration: "none", color: "black" }}
-          >
+          <Link to="/chat" style={{ textDecoration: "none", color: "black" }}>
             <div className="item">
               <MessageOutlinedIcon />
               <span>Messages</span>
@@ -59,33 +57,37 @@ function Sidebar() {
             </div>
           </Link>
 
-            <div className="item cursor-pointer text-slate-900">
-              <SettingsOutlinedIcon />
-              <span onClick={()=>{
-                localStorage.clear()
-              }}>LogOut</span>
-            </div>
-
+          <div className="item cursor-pointer text-slate-900">
+            <SettingsOutlinedIcon />
+            <span
+              onClick={() => {
+                localStorage.clear();
+              }}
+            >
+              LogOut
+            </span>
+          </div>
         </div>
         <div>
           <p className="my-7 font-semibold">Account</p>
-
 
           <Link
             to={`/profile/${user._id}`}
             style={{ textDecoration: "none", color: "black" }}
           >
-          <div className="flex ">
-            <img
-              src={
-                user?.profilePicture ? user?.profilePicture :"https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
-              }
-              alt="..."
-              className="shadow rounded-full max-w-[3.5rem] h-auto border-none "
+            <div className="flex ">
+              <img
+                src={
+                  user?.profilePicture
+                    ? user?.profilePicture
+                    : "https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
+                }
+                alt="..."
+                className="shadow rounded-full max-w-[3.5rem] h-auto border-none "
               />
-            <p className="ml-2 mt-4 text-lg ">{user.username}</p>
-          </div>
-              </Link>
+              <p className="ml-2 mt-4 text-lg ">{user.username}</p>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

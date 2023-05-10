@@ -4,17 +4,16 @@ import { getUser } from "../../api/UserRequest";
 import { format } from "timeago.js";
 import InputEmoji from "react-input-emoji";
 import "./chatBox.css";
-function ChatBox({ chat, currentUser, setSendMessage, receiveMessage }) {
+const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
+  const online = false;
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
-  useEffect(() => {
-    if (receiveMessage !== null && receiveMessage?.chatId === chat?._id) {
-      console.log("data received", receiveMessage);
-      setMessages([...messages, receiveMessage]);
-    }
-  }, [receiveMessage]);
+  const handleChange = (newMessage) => {
+    setNewMessage(newMessage);
+  };
+
   useEffect(() => {
     const userId = chat?.members?.find((id) => id !== currentUser);
     const getUserData = async () => {
@@ -28,7 +27,6 @@ function ChatBox({ chat, currentUser, setSendMessage, receiveMessage }) {
     if (chat !== null) getUserData();
   }, [chat, currentUser]);
 
-  //
   useEffect(() => {
     const fetchMessages = async () => {
       try {
@@ -40,9 +38,20 @@ function ChatBox({ chat, currentUser, setSendMessage, receiveMessage }) {
     };
     if (chat !== null) fetchMessages();
   }, [chat]);
-  const handleChange = (newMessage) => {
-    setNewMessage(newMessage);
-  };
+  
+  // useEffect(() => {
+  //   if (receiveMessage !== null && receiveMessage?.chatId === chat?._id) {
+  //     setMessages((prevMessages) => [...prevMessages, receiveMessage]);
+  //   }
+  // }, [receiveMessage]);
+  useEffect(() => {
+    console.log("Message Arrived: ", receiveMessage)
+    if (receiveMessage !== null && receiveMessage.chatId === chat._id) {
+        setMessages([...messages, receiveMessage]);
+    }
+
+}, [receiveMessage])
+  //
   const handleSent = async (e) => {
     e.preventDefault();
     const message = {
@@ -55,7 +64,7 @@ function ChatBox({ chat, currentUser, setSendMessage, receiveMessage }) {
     try {
       const { data } = await addMessage(message);
       setMessages([...messages, data]);
-      console.log(data, "dataaaa", messages);
+      // setMessages((prevMessages) => [...prevMessages, data]);
       setNewMessage("");
     } catch (error) {
       console.log(error);
@@ -76,18 +85,18 @@ function ChatBox({ chat, currentUser, setSendMessage, receiveMessage }) {
                 <div>
                   <img
                     src={
-                      userData?.profilePicture
+                      userData?.user?.profilePicture
                         ? process.env.REACT_APP_PUBLIC_FOLDER +
-                          userData.profilePicture
+                        userData?.user?.profilePicture
                         : process.env.REACT_APP_PUBLIC_FOLDER +
                           "defaultProfile.png"
                     }
-                    alt="Profile"
+                    alt=""
                     className="followerImage"
                     style={{ width: "50px", height: "50px" }}
                   />
                   <div className="name" style={{ fontSize: "0.9rem" }}>
-                    <span>{userData?.username}</span>
+                    <span>{userData?.user?.username}</span>
                   </div>
                 </div>
               </div>
@@ -146,6 +155,6 @@ function ChatBox({ chat, currentUser, setSendMessage, receiveMessage }) {
       <div id="root"></div>
     </>
   );
-}
+};
 
 export default ChatBox;
