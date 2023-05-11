@@ -1,4 +1,5 @@
 import ChatModel from "../Models/chatModel.js";
+import UserModel from "../Models/userModel.js";
 
 export const createChat=async(req,res)=>{
 const newChat = new ChatModel({
@@ -13,11 +14,20 @@ try {
 }
 
 export const getFollowers = async(req,res)=>{
-    console.log('bbbbbbbbbbbb')
+
     try {
-        const followers = req
-        console.log(followers,'aaaaaaaaaaaaaaaa');
-        res.status(200).json(followers);
+        const {userId} = req.params
+        console.log(userId,req.query.search);
+        let users = await (await UserModel.find({username: { $regex: new RegExp(req.query.search), $options: 'i' }}))
+        // users.map((u)=>{
+        //     console.log(u.username,"name");
+        // })
+        users = users.map((user) => {
+            const { password, ...otherDetails } = user._doc;
+            return { ...otherDetails };
+          });
+
+        res.status(200).json(users);
     } catch (error) {
         res.status(500).json(error)
     }

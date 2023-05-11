@@ -8,6 +8,7 @@ export const logIn = (formData) => async (dispatch) => {
   } catch (error) {
     console.log(error);
     dispatch({ type: "AUTH_FAIL" });
+    return error
   }
 };
 export const AdminLogIn = (formData) => async (dispatch) => {

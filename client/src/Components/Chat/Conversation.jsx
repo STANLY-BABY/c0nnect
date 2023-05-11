@@ -3,8 +3,10 @@ import { getUser } from "../../api/UserRequest";
 
 function Conversation({ data, currentUserId, online }) {
   const [userData, setUserData] = useState(null);
+  // console.log(data)
   useEffect(() => {
     const userId = data.members.find((id) => id !== currentUserId);
+    console.log(userId,currentUserId,'gdgdgdgdfg')
     const getUserData = async () => {
       try {
         const { data } = await getUser(userId);
@@ -14,7 +16,7 @@ function Conversation({ data, currentUserId, online }) {
       }
     };
     getUserData();
-  }, []);
+  }, [data]);
   return (
     <>
       <div className="">

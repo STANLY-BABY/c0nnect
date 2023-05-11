@@ -12,14 +12,16 @@ function Chat() {
   const { user } = useSelector((state) => state.authReducer.authData);
   const [data, setData] = useState({});
   const [chats, setChats] = useState([]);
+  console.log(chats)
   const [currentChat, setCurrentChat] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setRecieveMessage] = useState(null);
   const location = useLocation();
+  const [showSearch,setShowSearch] = useState(false)
   const socket = useRef();
-  let [followers,setFollowers] = useState(user.followers)
-  console.log(followers,'followr=ers')
+  let [searchUsers,setSearchUsers] = useState(null)
+
   // useEffect(() => {
   //   socket.current.emit('new-user-add', user._id)
   // },[])
@@ -92,8 +94,9 @@ if(error.response){
   async function handleSubmit() {
     try {
       alert('aa')
-      let response = await getFollowedUserSearchData(search);
-    console.log(response.data);
+      let response = await getFollowedUserSearchData(search,user._id);
+      setSearchUsers(response.data)
+      setShowSearch(true)
     } catch (error) {
       if(error.response){
         console.log(error.message)
@@ -125,6 +128,15 @@ if(error.response){
             />
             <button type="submit">search</button>
           </form>
+          {showSearch && searchUsers.map((userr, index) => (
+            <div className="" key={index} onClick={() => setCurrentChat({'members':[user._id,userr._id]})}>
+              <Conversation
+                data={{'members':[user._id,userr._id]}}
+                currentUserId={user._id}
+                online={checkOnlineStatus({'members':[user._id,userr._id]})}
+              />
+            </div>
+          ))}
         </div>
 
         <h2 className="mb-5 ml-5 text-2xl h-full">Chats</h2>
@@ -133,7 +145,7 @@ if(error.response){
             <div key={index} onClick={() => setCurrentChat(chat)}>
               <Conversation
                 data={chat}
-                currentUser={user._id}
+                currentUserId={user._id}
                 online={checkOnlineStatus(chat)}
               />
             </div>

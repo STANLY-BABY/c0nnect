@@ -1,7 +1,7 @@
 import "./loginright.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import { logIn } from "../../actions/authAction";
 import { signupvalidationSchema } from "../../Pages/Login/Userauthvalid.js";
 import { GoogleLogin } from "@react-oauth/google";
@@ -9,6 +9,7 @@ import { googleRegister, signUp } from "../../actions/authAction";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 function LoginRight() {
+  const [error, setError] = useState(null)
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.authReducer.loading);
   console.log(loading);
@@ -16,9 +17,11 @@ function LoginRight() {
     return { ...data, [event.target.name]: event.target.value };
   };
   const [formData, setFormData] = useReducer(formReducer, {});
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(logIn(formData));
+    let test =await dispatch(logIn(formData))
+    setError(test.response.data)
+    ;
   };
   const {
     register,
@@ -56,6 +59,7 @@ function LoginRight() {
               placeholder="Enter your Password"
             />
             <p className="mb-1 text-end">Forgot password ?</p>
+            <span className='text-red-500 font-light'>{error && <>{error}</>}</span>
             <button
               className=" text-lg bg-gradient-to-r from-l-pink to-l-blue text-white font-medium py-2 px-4 w-80 border border-white rounded"
               disabled={loading}
