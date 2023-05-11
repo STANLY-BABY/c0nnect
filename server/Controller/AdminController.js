@@ -48,13 +48,6 @@ export const getDashboard = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const { page = 1, limit = 3, search } = req.query;
-    // let search
-    // try {
-    //   search = req.query.search
-
-    // } catch (error) {
-    //   console.log('not able to...')
-    // }
     let users;
     let query = {};
     if (search) {
@@ -69,13 +62,7 @@ export const getAllUsers = async (req, res) => {
     const count = await UserModel.countDocuments(query);
     const totalPages = Math.ceil(count / limit);
     try {
-      // users = users.map((user) => {
-      //   const { password, ...otherDetails } = user._doc;
-      //   const date = new Date(otherDetails.createdAt);
-      //   const formattedDate = date.toLocaleDateString();
-      //   console.log("try");
-      //   return { ...otherDetails, createdAt: formattedDate };
-      // });
+    
       const finalData = { users: users, totalPages: totalPages };
       res.status(200).json(finalData);
     } catch (error) {
@@ -87,36 +74,6 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-// export const getAllUsers = async (req, res) => {
-//   try {
-
-//     const { page = 1, limit = 10, search } = req.query;
-//     const skip = (page - 1) * limit;
-//     const query = {};
-
-//     if (search) {
-//       query.$or = [
-//         { username: { $regex: search, $options: 'i' } },
-//         { email: { $regex: search, $options: 'i' } },
-//       ];
-//     }
-
-//     const users = await UserModel.find(query)
-//       .skip(skip)
-//       .limit(parseInt(limit))
-//       .select('-password')
-//       .sort({ createdAt: -1 })
-//       .lean();
-
-//     const count = await UserModel.countDocuments(query);
-
-//     const totalPages = Math.ceil(count / limit);
-
-//     res.status(200).json({ users, totalPages });
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// };
 
 export const adminLogin = (req, res) => {
   const credintials = {

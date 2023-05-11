@@ -45,6 +45,21 @@ const authReducer = (
       console.log("googleaction", action);
       localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
       return { ...state, authData: action.data, loading: false, error: false };
+
+    case "UPDATING_START":
+      return { ...state, updateLoading: true, error: false };
+    case "UPDATING_SUCESS":
+      localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
+
+      return { ...state, authData: action.data, updateLoading: false, error: false };
+
+    case "UPDATING_FAIL":
+      return { ...state, updateLoading: false, error: true };
+   
+      case "LOG_OUT":
+      localStorage.clear();
+      return { ...state, authData: null, loading: false, error: false };
+
     default:
       return state;
   }

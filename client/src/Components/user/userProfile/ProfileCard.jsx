@@ -5,14 +5,34 @@ import EmailIcon from "@mui/icons-material/Email";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FemaleIcon from "@mui/icons-material/Female";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditProfile from "./EditProfile";
-import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { useDispatch } from "react-redux";
-function ProfileCard({user}) {
+import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import * as UserApi from "../../../api/UserRequest"
+function ProfileCard() {
   const [open, setOpen] = useState(false);
-const dispatch=useDispatch()
+  const dispatch = useDispatch();
+  const params = useParams();
+  const profileUserId = params.id;
+  const [profileUser, setProfileUser] = useState({});
+  const { user } = useSelector((state) => state.authReducer.authData);
+  useEffect(() => {
+    const fetchProfileUser = async () => {
+      if(profileUserId===user._id){
+        console.log(user,'profile');
+        setProfileUser(user)
+      }else{
+        const profileUser=await UserApi.getUser(profileUserId)
+        setProfileUser(profileUser)
+        console.log(profileUser,'otherprofile');
+
+      }
+    };
+    fetchProfileUser()
+  },[user]);
   return (
     <div>
       <div className="rounded-md mt-3 min-w-[20rem]  bg-white shadow-md sticky top-0	">
@@ -23,15 +43,15 @@ const dispatch=useDispatch()
           </ListItem>
           <ListItem>
             <PhoneAndroidIcon className="mr-5" />
-           {user.phonenumber}
+            {user.phonenumber}
           </ListItem>
           <ListItem>
             <FemaleIcon className="mr-5" />
-            Male
+            {user.gender}
           </ListItem>
           <ListItem>
             <FavoriteIcon className="mr-5" />
-            Relationship
+            {user.Realtionship}
           </ListItem>
           <ListItem>
             <EmailIcon className="mr-5" />
@@ -39,22 +59,23 @@ const dispatch=useDispatch()
           </ListItem>
           <ListItem>
             <HomeRepairServiceIcon className="mr-5" />
-            Web Developer
+            {user.work}
           </ListItem>
           <ListItem>
             <LocationOnIcon className="mr-5" />
-            India
+            {user.location}
           </ListItem>
-          <ListItem>
+          {user._id===profileUserId?( <ListItem>
             <button
               type="button"
-              className="ml-24 mt-8 bg-[#a974ff] text-white font-medium py-1 px-2 border  border-white rounded"  
-              onClick={()=>setOpen(true)}
+              className="ml-24 mt-8 bg-[#a974ff] text-white font-medium py-1 px-2 border  border-white rounded"
+              onClick={() => setOpen(true)}
             >
               Edit Profile
             </button>
-            {setOpen?<EditProfile open={open} setOpen={setOpen}/>:null}
-          </ListItem>
+            {setOpen ? <EditProfile open={open} setOpen={setOpen} data={user} /> : null}
+          </ListItem>):("")}
+         
         </List>
       </div>
     </div>

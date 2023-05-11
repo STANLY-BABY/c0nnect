@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { getFollowedUserData, userChats } from "../../../api/ChatRequests";
+import { userChats } from "../../../api/ChatRequests";
 import ChatBox from "../../../Components/Chat/ChatBox";
 import Conversation from "../../../Components/Chat/Conversation";
 import { io } from "socket.io-client";
 import "./chat.css";
 import ErrorBoundary from "../../../Components/user/error/ErrorBoundary";
 import { useLocation } from "react-router-dom";
+import { getFollowedUserSearchData } from "../../../api/UserRequest";
 function Chat() {
   const { user } = useSelector((state) => state.authReducer.authData);
   const [data, setData] = useState({});
@@ -92,7 +93,8 @@ if(error.response){
     return online ? true : false;
   };
   async function handleSubmit() {
-    let response = await getFollowedUserData(search);
+    let response = await getFollowedUserSearchData(search);
+    console.log(response.data.users,"response.data.users");
     setData(response.data.users);
   }
   return (

@@ -80,8 +80,8 @@ export const getUserDetails = async (req, res) => {
 export const UpdateUser = async (req, res) => {
   const id = req.params.id;
   try {
-    const { currentUserId, currentUserAdminStatus, password } = req.body;
-    if (id === currentUserId || currentUserAdminStatus) {
+    const { _id, password } = req.body;
+    if (id === _id) {
       try {
         if (password) {
           const salt = await bcrypt.genSalt(10);
@@ -90,7 +90,17 @@ export const UpdateUser = async (req, res) => {
         const user = await UserModel.findByIdAndUpdate(id, req.body, {
           new: true,
         });
-        res.status(200).json(user);
+        const token = jwt.sign(
+          {
+            username: user.username,
+            id: user._id,
+          },
+          process.env.JWT_SEC,
+          {
+            expiresIn: "1hr",
+          }
+        );
+        res.status(200).json({ user, token });
       } catch (error) {
         res.status(500).json(error);
       }
@@ -304,6 +314,33 @@ export const UpdateCoverPicture = (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json(error);
+  }
+};
+
+//search user
+export const getAllFollowedUsers = async (req, res) => {
+  try {
+    const { search } = req.query;
+    let users;
+    let query = {};
+    if (search) {
+      query = { username: { $regex: search, $options: "i" } };
+    }
+    try {
+      users = await UserModel.find(query).skip(skip).limit(parseInt(limit));
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const finalData = { users: users };
+      console.log(finalData, "finaldata");
+      res.status(200).json(finalData);
+    } catch (error) {
+      res.status(500).json(error);
+      console.log("final error", error.message);
+    }
+  } catch (error) {
     res.status(500).json(error);
   }
 };

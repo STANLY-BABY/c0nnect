@@ -1,12 +1,13 @@
 const io = require("socket.io")(8800, {
   cors: {
-    origin: ["http://localhost:3000", "https://socket.c0nnect.tech"],
+    origin: ["http://localhost:3000", "https://socket.c0nnect.tech","http://socket.c0nnect.tech","https://c0nnect.tech"],
   },
 });
 
 let activeUsers = [];
 
 io.on("connection", (socket) => {
+  console.log("listening socket");
   socket.on("new-user-add", (newUserId) => {
     if (!activeUsers.some((user) => user.userId === newUserId)) {
       activeUsers.push({ userId: newUserId, socketId: socket.id });

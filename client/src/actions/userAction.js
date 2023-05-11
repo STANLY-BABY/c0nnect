@@ -4,7 +4,6 @@ export const followUser = (id, data) => async (dispatch) => {
   UserApi.followUser(id, data);
 };
 export const unfollowUser = (id, data) => async (dispatch) => {
-  alert('hi')
   dispatch({ type: "UNFOLLOW_USER" });
   UserApi.unfollowUser(id, data);
 };
@@ -40,3 +39,12 @@ export const updateProfilePic = (id, imageData) => async (dispatch) => {
       dispatch({type:"UPDATE_COVER_PIC_FAIL"})
     }
   };
+  export const updateUser =(id,formData)=> async(dispatch)=>{
+    dispatch({ type: "UPDATING_START" });
+    try {
+      const {data}= await UserApi.updateUser(id,formData)
+      dispatch({type:"UPDATING_SUCESS",data:data})
+    } catch (error) {
+      dispatch({type:"UPDATING_FAIL"})
+    }
+  }

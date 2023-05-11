@@ -1,7 +1,5 @@
 import axios from "axios";
 const API = axios.create({ baseURL: "https://api.c0nnect.tech" });
-
-
 // const API = axios.create({ baseURL: "http://localhost:5000" });
 export const getUser =async (userId) =>await API.get(`/user/${userId}`);
 export const getAllUser = async () => await API.get("/user");
@@ -24,3 +22,5 @@ export const updateCoverPic = (id, file) => {
   });
   
 };
+export const updateUser =(id,formData)=>API.put(`/user/${id}`,formData)
+export const getFollowedUserSearchData = (search) => API.get(`/user/getFollowedUsers?search=${search}`);

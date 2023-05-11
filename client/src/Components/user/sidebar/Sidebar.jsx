@@ -3,11 +3,15 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../../actions/authAction";
 function Sidebar() {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authReducer.authData);
-  const navigate = useNavigate();
+  const handeleLogOut = () => {
+    dispatch(logOut());
+  };
   return (
     <div className="Sidebar shadow-lg shadow-indigo-500/40">
       <div className="container">
@@ -59,13 +63,7 @@ function Sidebar() {
 
           <div className="item cursor-pointer text-slate-900">
             <SettingsOutlinedIcon />
-            <span
-              onClick={() => {
-                localStorage.clear();
-              }}
-            >
-              LogOut
-            </span>
+            <span onClick={handeleLogOut}>LogOut</span>
           </div>
         </div>
         <div>
