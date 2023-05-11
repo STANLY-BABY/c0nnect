@@ -64,7 +64,6 @@ const CommentModal = ({ commetModal, setCommentModal, post }) => {
     console.log("handel", user._id, newComment);
     let data = { userId: user._id, comment: newComment };
     addComment(post._id, data).then((res) => {
-      console.log(res, "res");
       setNewComment("");
       setComments((prevComments) => prevComments.concat(res.data));
     });

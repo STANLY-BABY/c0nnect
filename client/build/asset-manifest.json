@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.b982449f.css",
-    "main.js": "/static/js/main.54b45a01.js",
+    "main.css": "/static/css/main.d2b9d40e.css",
+    "main.js": "/static/js/main.78251b01.js",
     "static/media/signup.jpg": "/static/media/signup.95ab10d9db09bdc31483.jpg",
     "static/media/signin.jpg": "/static/media/signin.aedf453f5528380afb96.jpg",
     "static/media/Poppins-Regular.ttf": "/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
     "static/media/Michroma-Regular.ttf": "/static/media/Michroma-Regular.d2ad050949cf83809690.ttf",
     "index.html": "/index.html",
-    "main.b982449f.css.map": "/static/css/main.b982449f.css.map",
-    "main.54b45a01.js.map": "/static/js/main.54b45a01.js.map"
+    "main.d2b9d40e.css.map": "/static/css/main.d2b9d40e.css.map",
+    "main.78251b01.js.map": "/static/js/main.78251b01.js.map"
   },
   "entrypoints": [
-    "static/css/main.b982449f.css",
-    "static/js/main.54b45a01.js"
+    "static/css/main.d2b9d40e.css",
+    "static/js/main.78251b01.js"
   ]
 }

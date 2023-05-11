@@ -107,7 +107,6 @@ function Post({ data }) {
   };
   const handleReport = (reason) => {
     const report = { userId: user._id, reason: reason };
-    console.log(report, "report", reason, "reason");
     reportPost(data._id, report);
     handleReportClose();
   };

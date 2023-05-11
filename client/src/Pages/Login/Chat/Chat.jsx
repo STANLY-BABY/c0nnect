@@ -16,26 +16,27 @@ function Chat() {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setRecieveMessage] = useState(null);
-  let searchQuery;
   const location = useLocation();
   const socket = useRef();
+  let [followers,setFollowers] = useState(user.followers)
+  console.log(followers,'followr=ers')
   // useEffect(() => {
   //   socket.current.emit('new-user-add', user._id)
   // },[])
   useEffect(() => {
-    socket.current = io("https://c0nnect.tech:8800");
-    // socket.current = io("http://localhost:8800");
+    socket.current = io("https://socket.c0nnect.tech");
+
 
     socket.current.emit("new-user-add", user._id);
     socket.current.on("get-users", (users) => {
       setOnlineUsers(users);
     });
   }, [user]);
-  useEffect(() => {
-    if (sendMessage !== null) {
-      socket.current.emit("send-message", sendMessage);
-    }
-  }, [sendMessage]);
+  // useEffect(() => {
+  //   if (sendMessage !== null) {
+  //     socket.current.emit("send-message", sendMessage);
+  //   }
+  // }, [sendMessage]);
 
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
@@ -43,22 +44,17 @@ function Chat() {
       setRecieveMessage(data);
     });
   }, []);
+  // useEffect(() => {
+  //   if (sendMessage !== null) {
+  //     socket.current.emit("send-message", sendMessage);
+  //   }
+  // }, [sendMessage]);
   useEffect(() => {
     if (sendMessage !== null) {
       socket.current.emit("send-message", sendMessage);
     }
   }, [sendMessage]);
-  useEffect(() => {
-    if (sendMessage !== null) {
-      socket.current.emit("send-message", sendMessage);
-    }
-  }, [sendMessage]);
-  if (location.search) {
-    try {
-      searchQuery = location.search.match(/search=([^&]+)/)[1];
-    } catch (error) {}
-  } else {
-  }
+
 useEffect(()=>{
   const getFollowedUsers=async()=>{
     try {
@@ -72,12 +68,13 @@ if(error.response){
   }
 })
 
-  const [search, setSearch] = useState(searchQuery);
+  const [search, setSearch] = useState(null);
   useEffect(() => {
     const getChats = async () => {
       try {
         const { data } = await userChats(user._id);
         setChats(data);
+        console.log(data,"dATA");
       } catch (error) {
         console.log(error);
       }
@@ -89,13 +86,23 @@ if(error.response){
 
   const checkOnlineStatus = (chat) => {
     const chatMember = chat.members.find((member) => member !== user._id);
-    const online = onlineUsers.find((user) => user.userId === chatMember);
+    const online = onlineUsers.find((user) => user.userId === chatMember); //need to pass selected user id here
     return online ? true : false;
   };
   async function handleSubmit() {
-    let response = await getFollowedUserSearchData(search);
-    console.log(response.data.users,"response.data.users");
-    setData(response.data.users);
+    try {
+      alert('aa')
+      let response = await getFollowedUserSearchData(search);
+    console.log(response.data);
+    } catch (error) {
+      if(error.response){
+        console.log(error.message)
+      }else{
+        console.log(error.messag,'error connection')
+      }
+    }
+    
+  
   }
   return (
     <div className="Chat ">
@@ -113,7 +120,7 @@ if(error.response){
               id="search"
               type="text"
               placeholder="Search"
-              value={searchQuery}
+              value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
             <button type="submit">search</button>

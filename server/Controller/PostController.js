@@ -351,7 +351,6 @@ export const updateComment = async (req, res) => {
 export const getReports = async (req, res) => {
   try {
     const reports = await ReportReasonModel.find();
-    console.log(response,"report");
     res.status(200).json(reports);
 
   } catch (error) {

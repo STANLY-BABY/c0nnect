@@ -12,6 +12,17 @@ try {
 }
 }
 
+export const getFollowers = async(req,res)=>{
+    console.log('bbbbbbbbbbbb')
+    try {
+        const followers = req
+        console.log(followers,'aaaaaaaaaaaaaaaa');
+        res.status(200).json(followers);
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
 export const UserChats= async(req,res)=>{
     console.log('');
     try {
@@ -25,6 +36,7 @@ export const UserChats= async(req,res)=>{
 }
 
 export const findChat = async (req,res)=>{
+    console.log('adfdfdf')
     try {
         const chat = await ChatModel.findOne({
             members:{$all:[req.params.firstId,req.params.secondId]}

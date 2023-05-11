@@ -81,6 +81,7 @@ export const UpdateUser = async (req, res) => {
   const id = req.params.id;
   try {
     const { _id, password } = req.body;
+    console.log(req.body, "req.body");
     if (id === _id) {
       try {
         if (password) {
