@@ -1,30 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { userChats } from "../../../api/ChatRequests";
+import { getFollowedUserData, userChats } from "../../../api/ChatRequests";
 import ChatBox from "../../../Components/Chat/ChatBox";
 import Conversation from "../../../Components/Chat/Conversation";
 import { io } from "socket.io-client";
 import "./chat.css";
 import ErrorBoundary from "../../../Components/user/error/ErrorBoundary";
+import { useLocation } from "react-router-dom";
 function Chat() {
   const { user } = useSelector((state) => state.authReducer.authData);
+  const [data, setData] = useState({});
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setRecieveMessage] = useState(null);
+  let searchQuery;
+  const location = useLocation();
   const socket = useRef();
   // useEffect(() => {
   //   socket.current.emit('new-user-add', user._id)
   // },[])
   useEffect(() => {
-    if (sendMessage !== null) {
-      socket.current.emit("send-message", sendMessage);
-    }
-  }, [sendMessage]);
-
-  useEffect(() => {
-    socket.current = io("http://c0nnect.tech:8800");
+    socket.current = io("https://c0nnect.tech:8800");
     // socket.current = io("http://localhost:8800");
 
     socket.current.emit("new-user-add", user._id);
@@ -32,10 +30,15 @@ function Chat() {
       setOnlineUsers(users);
     });
   }, [user]);
+  useEffect(() => {
+    if (sendMessage !== null) {
+      socket.current.emit("send-message", sendMessage);
+    }
+  }, [sendMessage]);
 
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
-      console.log("data ", data)
+      console.log("data ", data);
       setRecieveMessage(data);
     });
   }, []);
@@ -49,7 +52,26 @@ function Chat() {
       socket.current.emit("send-message", sendMessage);
     }
   }, [sendMessage]);
+  if (location.search) {
+    try {
+      searchQuery = location.search.match(/search=([^&]+)/)[1];
+    } catch (error) {}
+  } else {
+  }
+useEffect(()=>{
+  const getFollowedUsers=async()=>{
+    try {
+      let data;
+      setData(data.users)
+    } catch (error) {
+if(error.response){
+  console.log("error from server");
+}      
+    }
+  }
+})
 
+  const [search, setSearch] = useState(searchQuery);
   useEffect(() => {
     const getChats = async () => {
       try {
@@ -61,7 +83,7 @@ function Chat() {
     };
     getChats();
   }, [user._id]);
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   //check user online status
 
   const checkOnlineStatus = (chat) => {
@@ -69,25 +91,36 @@ function Chat() {
     const online = onlineUsers.find((user) => user.userId === chatMember);
     return online ? true : false;
   };
-
+  async function handleSubmit() {
+    let response = await getFollowedUserData(search);
+    setData(response.data.users);
+  }
   return (
     <div className="Chat ">
       {/* left side */}
       <div className="Left-side-chat">
         <div className="search flex justify-center mt-10 mb-8">
-          <input
-            className="shadow border-blue-200 appearance-none border rounded-full h-14 py-2 px-3  leading-tight focus:outline-none focus:shadow-outline font-medium"
-            id="search"
-            type="text"
-            placeholder="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <input
+              className="shadow border-blue-200 appearance-none border rounded-full h-14 py-2 px-3  leading-tight focus:outline-none focus:shadow-outline font-medium"
+              id="search"
+              type="text"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button type="submit">search</button>
+          </form>
         </div>
 
         <h2 className="mb-5 ml-5 text-2xl h-full">Chats</h2>
         <div className="Chat-list">
-          {chats.map((chat,index) => (
+          {chats.map((chat, index) => (
             <div key={index} onClick={() => setCurrentChat(chat)}>
               <Conversation
                 data={chat}
