@@ -3,7 +3,7 @@ import { getUser } from "../../api/UserRequest";
 
 function Conversation({ data, currentUserId, online }) {
   const [userData, setUserData] = useState(null);
- 
+
   useEffect(() => {
     const userId = data.members.find((id) => id !== currentUserId);
 
@@ -20,11 +20,11 @@ function Conversation({ data, currentUserId, online }) {
   return (
     <>
       <div className="">
-        <div className="flex">
+        <div className="flex mx-2 bg-white rounded-lg mb-1 p-2">
           <div>
             {online && <div className="online-dot"></div>}
             <img
-              className="shadow rounded-full max-w-[3.5rem] h-auto border-none"
+              className="ml-3 shadow rounded-full max-w-[3rem] h-auto border-none"
               src={
                 userData?.user?.profilePicture ||
                 "https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"

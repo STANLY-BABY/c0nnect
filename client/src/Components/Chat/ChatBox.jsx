@@ -5,7 +5,6 @@ import { format } from "timeago.js";
 import InputEmoji from "react-input-emoji";
 import "./chatBox.css";
 const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
-  
   const online = false;
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -19,10 +18,9 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
     const getUserData = async () => {
       try {
         const { data } = await getUser(userId);
-
         setUserData(data);
       } catch (error) {
-     
+        console.log(error);
       }
     };
     if (chat !== null) getUserData();
@@ -45,7 +43,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
       setMessages([...messages, receiveMessage]);
     }
   }, [receiveMessage]);
-  //
+
   const handleSent = async (e) => {
     e.preventDefault();
     let message
@@ -62,9 +60,6 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
         members: chat,
       };
     }
-    
-
-
     const receiverId = chat.members.find((id) => id !== currentUser);
     setSendMessage({ ...message, receiverId });
     try {
@@ -82,13 +77,15 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
   }, [messages]);
   return (
     <>
-      <div className="rounded-2xl grid grid-rows-[14vh 60vh 13vh] ">
+      <div className="rounded-2xl grid grid-rows-[14vh 60vh 13vh] h-full">
         {chat ? (
           <>
             {/* chat-header */}
             <div className="p-[1rem 1rem 0rem 1rem] flex flex-col row-start-1">
               <div className="follower">
                 <div>
+                  <div className="flex mt-5">
+
                   <img
                     src={
                       userData?.user?.profilePicture
@@ -99,8 +96,9 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
                     className="followerImage"
                     style={{ width: "50px", height: "50px" }}
                   />
-                  <div className="name" style={{ fontSize: "0.9rem" }}>
+                  <div className="name text-xl">
                     <span>{userData?.user?.username}</span>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -138,11 +136,11 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
                 ))}
             </div>
             {/* chat-sender */}
-            <div className="chat-sender">
+            <div className="chat-sender w-[90%] ml-16">
               <div>+</div>
               <InputEmoji value={newMessage} onChange={handleChange} />
               <div
-                className="button p-6 cursor-pointer text-lg bg-gradient-to-r from-l-pink to-l-blue text-white font-medium rounded-md"
+                className="button cursor-pointer text-lg bg-gradient-to-r from-l-pink to-l-blue text-white  font-semibold rounded-md"
                 onClick={handleSent}
               >
                 Send
@@ -151,7 +149,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
             </div>{" "}
           </>
         ) : (
-          <span className="h-[100vh] chatbox-empty-message">
+          <span className="h-[100vh] text-center text-xl">
             Tap on a chat to start conversation...
           </span>
         )}
