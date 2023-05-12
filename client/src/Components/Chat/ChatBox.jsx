@@ -5,11 +5,11 @@ import { format } from "timeago.js";
 import InputEmoji from "react-input-emoji";
 import "./chatBox.css";
 const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
+  
   const online = false;
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("s");
-
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
   };
@@ -22,7 +22,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
 
         setUserData(data);
       } catch (error) {
-        console.log(error);
+     
       }
     };
     if (chat !== null) getUserData();
@@ -40,11 +40,6 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
     if (chat !== null) fetchMessages();
   }, [chat]);
 
-  // useEffect(() => {
-  //   if (receiveMessage !== null && receiveMessage?.chatId === chat?._id) {
-  //     setMessages((prevMessages) => [...prevMessages, receiveMessage]);
-  //   }
-  // }, [receiveMessage]);
   useEffect(() => {
     if (receiveMessage !== null && receiveMessage.chatId === chat._id) {
       setMessages([...messages, receiveMessage]);
@@ -53,17 +48,29 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
   //
   const handleSent = async (e) => {
     e.preventDefault();
-    const message = {
-      senderId: currentUser,
-      text: newMessage,
-      chatId: chat._id,
-    };
+    let message
+    if(chat._id){
+      message = {
+        senderId: currentUser,
+        text: newMessage,
+        chatId: chat._id,
+      };
+    }else{
+      message = {
+        senderId: currentUser,
+        text: newMessage,
+        members: chat,
+      };
+    }
+    
+
+
     const receiverId = chat.members.find((id) => id !== currentUser);
     setSendMessage({ ...message, receiverId });
     try {
       const { data } = await addMessage(message);
-      setMessages([...messages, data]);
-      // setMessages((prevMessages) => [...prevMessages, data]);
+      // setMessages([...messages, data]);
+      setMessages((prevMessages) => [...prevMessages, data]);
       setNewMessage("");
     } catch (error) {
       console.log(error);

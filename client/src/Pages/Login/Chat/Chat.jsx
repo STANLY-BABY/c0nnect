@@ -12,8 +12,8 @@ function Chat() {
   const { user } = useSelector((state) => state.authReducer.authData);
   const [data, setData] = useState({});
   const [chats, setChats] = useState([]);
-  console.log(chats)
   const [currentChat, setCurrentChat] = useState(null);
+  console.log(currentChat,"current chat")
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setRecieveMessage] = useState(null);
@@ -46,35 +46,20 @@ function Chat() {
       setRecieveMessage(data);
     });
   }, []);
-  // useEffect(() => {
-  //   if (sendMessage !== null) {
-  //     socket.current.emit("send-message", sendMessage);
-  //   }
-  // }, [sendMessage]);
+
   useEffect(() => {
     if (sendMessage !== null) {
       socket.current.emit("send-message", sendMessage);
     }
   }, [sendMessage]);
 
-useEffect(()=>{
-  const getFollowedUsers=async()=>{
-    try {
-      let data;
-      setData(data.users)
-    } catch (error) {
-if(error.response){
-  console.log("error from server");
-}      
-    }
-  }
-})
 
   const [search, setSearch] = useState(null);
   useEffect(() => {
     const getChats = async () => {
       try {
         const { data } = await userChats(user._id);
+        console.log(data,'getchats');
         setChats(data);
         console.log(data,"dATA");
       } catch (error) {
@@ -93,7 +78,6 @@ if(error.response){
   };
   async function handleSubmit() {
     try {
-      alert('aa')
       let response = await getFollowedUserSearchData(search,user._id);
       setSearchUsers(response.data)
       setShowSearch(true)
@@ -132,6 +116,7 @@ if(error.response){
             <div className="" key={index} onClick={() => setCurrentChat({'members':[user._id,userr._id]})}>
               <Conversation
                 data={{'members':[user._id,userr._id]}}
+                
                 currentUserId={user._id}
                 online={checkOnlineStatus({'members':[user._id,userr._id]})}
               />

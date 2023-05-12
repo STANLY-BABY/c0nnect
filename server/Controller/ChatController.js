@@ -17,11 +17,7 @@ export const getFollowers = async(req,res)=>{
 
     try {
         const {userId} = req.params
-        console.log(userId,req.query.search);
         let users = await (await UserModel.find({username: { $regex: new RegExp(req.query.search), $options: 'i' }}))
-        // users.map((u)=>{
-        //     console.log(u.username,"name");
-        // })
         users = users.map((user) => {
             const { password, ...otherDetails } = user._doc;
             return { ...otherDetails };

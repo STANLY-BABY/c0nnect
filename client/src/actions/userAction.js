@@ -22,7 +22,7 @@ export const updateProfilePic = (id, imageData) => async (dispatch) => {
         dispatch({ type: "UPDATE_PROFILE_PIC_SUCCESS", payload: { id: id, file:resp} });
        })
     } catch (error) {
-      console.log(error);
+      
       dispatch({ type: "UPDATE_PROFILE_PIC_FAIL" });
     }
   };
@@ -31,11 +31,11 @@ export const updateProfilePic = (id, imageData) => async (dispatch) => {
     dispatch({ type: "UPDATE_COVER_PIC" });
     try {
       UserApi.updateCoverPic(id,data).then((res)=>{
-        console.log(res.coverPicture,'resp data')
+        
         dispatch({type:"UPDATE_COVER_PIC_SUCCESS",payload:{id:id,file:res}})
       })
     } catch (error) {
-      console.log(error);
+      
       dispatch({type:"UPDATE_COVER_PIC_FAIL"})
     }
   };
