@@ -1,4 +1,3 @@
-import "./loginright.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useReducer, useState } from "react";
@@ -33,9 +32,9 @@ function LoginRight() {
     mode: "onBlur",
   });
   return (
-    <div className="  w-[31rem] rounded-r-lg bg-[#ffffffe8] h-[33.9rem]  myflex flex-col LoginRight ">
-      <p className="Heading text-4xl mb-10">CONNECT</p>
-      <div class="w-full max-w-[340px]">
+    <div className="  xl:w-[31rem] lg:w-96 md:rounded-r-lg md:rounded-l-none rounded-lg bg-[#ffffffe8] xl:h-[33.9rem] lg:h-[30.9rem] flex justify-center items-center text-center flex-col lg:py-0 md:py-5 p-3">
+      <p className="Heading text-4xl lg:mb-10 mb-6">CONNECT</p>
+      <div class="lg:px-0 md:px-4 w-full lg:max-w-[340px] md:min-w-[300px]">
         <form onSubmit={handleSubmit}>
           <div class="mb-4">
             <p className="text-start font-medium text-base">Email</p>

@@ -3,7 +3,7 @@ import "./loginLeft.css";
 import pic from "../../Images/signup.jpg";
 function LoginLeft() {
   return (
-    <div className="LoginLeft bg-white w-[45rem]  myflex items-center flex-col">
+    <div className="LoginLeft bg-white xl:w-[45rem] lg:w-[38rem] lg:h-auto md:h-[27.3rem] md:w-[33rem] myflex items-center flex-col ">
       <div className="heade">
         <div>
           <svg
@@ -43,7 +43,7 @@ function LoginLeft() {
         </div>
       </div>
 
-      <p className="Heading text-4xl mb-10 ">Join Our Community</p>
+      <p className="Heading text-4xl lg:mb-10 md:mb-7 ">Join Our Community</p>
       <button
         type="button"
         className=" text-lg bg-gradient-to-r from-l-pink to-l-blue text-white font-medium py-2 px-4 w-56 border border-white rounded"
