@@ -112,11 +112,11 @@ function Post({ data }) {
   };
   return (
     <>
-      <div className="bg-white h-auto mb-5 mt-5 w-[51rem] myflex flex-col rounded-xl shadow-md shadow-grey-500/40">
-        <div className="flex w-full px-3 justify-between mt-5">
+      <div className=" bg-white md:mx-0  mx-2 h-auto mb-5 mt-5  pt-3 flex-wrap flex-col rounded-xl shadow-md shadow-grey-500/40 px-2">
+        <div className="flex w-full px-3 justify-between xl:pt-5 lg:pt-4 md:pt-3 mt-2">
           <div className="flex ">
             <img
-              className=" w-12 mx-5 h-12 p-0.5 rounded-full ring-2 ring-pink-600 dark:ring-pink-600"
+              className=" w-10 h-10 md:w-12 mx-5  md:h-12 p-0.5 rounded-full ring-2 ring-pink-600 dark:ring-pink-600"
               src={
                 data.userId === user._id
                   ? user.profilePicture
@@ -125,10 +125,10 @@ function Post({ data }) {
               alt="Bordered avatar"
             />
             <div>
-              <p className="text-lg text-start">
+              <p className="md:text-lg text-xs text-start">
                 {data.username || user.username}
               </p>
-              <p className="text-slate-500 text-sm text-start">
+              <p className="text-slate-500 md:text-sm text-xs text-start">
                 {format(data.createdAt)}
               </p>
             </div>
@@ -269,12 +269,12 @@ function Post({ data }) {
           </div>
         </div>
 
-        <p className="mt-5 w-full text-left pl-10">{data.desc}</p>
-        <div>
+        <p className="md:my-5 my-2 w-full text-left px-10">{data.desc}</p>
+        <div className="">
           <img
             src={data.image}
             alt=""
-            className="rounded-md mt-8 mb-4 w-[49rem] h-[25rem]"
+            className="rounded-md md:mt-8 md:px-0 px-2 md:mb-4 object-contain md:object-scale-down"
           />
         </div>
         <ErrorBoundary>
@@ -287,7 +287,7 @@ function Post({ data }) {
           ) : null}
         </ErrorBoundary>
         <div className="w-full flex flex-col  justify-start items-start">
-          <div className=" flex justify-between mb-4 w-full">
+          <div className=" flex justify-between md:mb-4 md:my-0 my-2 w-full">
             <div className="ml-5 flex">
               <div onClick={handleLike}>
                 {liked ? (
@@ -312,7 +312,7 @@ function Post({ data }) {
             <BookmarkBorderIcon className="mr-5 cursor-pointer" />
           </div>
 
-          <div className=" flex  mx-5 mb-4">
+          <div className=" flex  mx-5 lg:mb-4 md:mb-3 mb-0 ">
             <div className="flex -space-x-4 cursor-pointer">
               <img
                 className="w-7 h-7 border-2 border-white rounded-full dark:border-white-500"
@@ -330,13 +330,13 @@ function Post({ data }) {
                 alt=""
               />
             </div>
-            <div>
+            <div >
               {liked ? (
                 <>
-                  <span className="font-semibold  text-slate-900 text-md mx-1">
+                  <span className="font-semibold  text-slate-900 text-xs md:text-md mx-1">
                     You{" "}
                   </span>
-                  <span className="font-thin  text-slate-500 text-md mr-1">
+                  <span className="font-thin  text-slate-500 text-xs md:text-md mr-1">
                     and
                   </span>
                 </>
@@ -344,11 +344,11 @@ function Post({ data }) {
                 <></>
               )}
 
-              <span className="font-semibold  text-slate-900 text-md mr-1">
+              <span className="font-semibold  text-slate-900 text-xs md:text-md mr-1">
                 {" "}
                 {liked ? likes - 1 : likes} others
               </span>
-              <span className="font-thin  text-slate-500 text-md mr-1">
+              <span className="font-thin  text-slate-500 text-xs xl:text-md mr-1">
                 liked this.
               </span>
             </div>

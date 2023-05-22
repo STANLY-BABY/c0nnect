@@ -17,11 +17,13 @@ function Home() {
   }, []);
 
   return (
-    <div className="myflex flex-col">
-      <Statusbar />
-      <Createpost />
+    <div className="flex justify-center flex-col">
 
-      <div>
+      {/* <Statusbar /> */}
+      <div className="md:px-52 lg:px-60 xl:px-80 px-0">
+      <Createpost />
+      </div>
+      <div className="md:px-52 lg:px-60 xl:px-80 px-0">
         <ErrorBoundary>
           {posts && posts.length !== 0 ? (
             posts.map((post, id) => {

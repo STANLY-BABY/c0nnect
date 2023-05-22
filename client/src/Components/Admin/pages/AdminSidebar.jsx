@@ -6,7 +6,7 @@ import ReportIcon from '@mui/icons-material/Report';
 import { Link } from "react-router-dom";
 function AdminSidebar() {
   return (
-    <div className="Sidebar shadow-lg shadow-indigo-500/40">
+    <div className="Sidebar1 shadow-lg shadow-indigo-500/40">
       <div className="container">
         <div className="menu mt-4">
           <Link to="/profile/id" style={{ textDecoration: "none" }}>

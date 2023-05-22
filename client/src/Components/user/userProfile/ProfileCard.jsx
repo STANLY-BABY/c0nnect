@@ -35,8 +35,8 @@ function ProfileCard() {
   },[user]);
   return (
     <div>
-      <div className="rounded-md mt-3 min-w-[20rem]  bg-white shadow-md sticky top-0	">
-        <List>
+      <div className=" flex flex-col items-center rounded-md mt-3 xl:min-w-[18rem]  lg:min-w-[15rem] md:mx-36 lg:mx-0 mx-2 bg-white shadow-md lg:sticky md:top-0	">
+        <List className="xl:w-full lg:w-48 ">
           <ListItem className="mt-5">
             <CelebrationIcon className="mr-5" />
             {user.dateOfBirth}
@@ -68,7 +68,7 @@ function ProfileCard() {
           {user._id===profileUserId?( <ListItem>
             <button
               type="button"
-              className="ml-24 mt-8 bg-[#a974ff] text-white font-medium py-1 px-2 border  border-white rounded"
+              className="md:ml-24 ml:[5%] mt-8 w-[90%] bg-[#a974ff] text-white font-medium py-1 px-2 border  border-white rounded"
               onClick={() => setOpen(true)}
             >
               Edit Profile
