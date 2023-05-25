@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { addMessage, getMessages } from "../../api/MessageRequests";
 import { getUser } from "../../api/UserRequest";
 import { format } from "timeago.js";
 import InputEmoji from "react-input-emoji";
-import "./chatBox.css";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SendIcon from '@mui/icons-material/Send';
 const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
   const online = false;
   const [userData, setUserData] = useState(null);
@@ -12,7 +14,11 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
   };
-
+  const navigate = useNavigate();
+  const handleGoBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
+  const isSmallScreen = window.innerWidth < 640;
   useEffect(() => {
     const userId = chat?.members?.find((id) => id !== currentUser);
     const getUserData = async () => {
@@ -46,14 +52,14 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
 
   const handleSent = async (e) => {
     e.preventDefault();
-    let message
-    if(chat._id){
+    let message;
+    if (chat._id) {
       message = {
         senderId: currentUser,
         text: newMessage,
         chatId: chat._id,
       };
-    }else{
+    } else {
       message = {
         senderId: currentUser,
         text: newMessage,
@@ -77,28 +83,30 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
   }, [messages]);
   return (
     <>
-      <div className="rounded-2xl grid grid-rows-[14vh 60vh 13vh] h-full">
+      <div className=" grid grid-rows-[14vh 60vh 13vh] h-full">
         {chat ? (
           <>
             {/* chat-header */}
             <div className="p-[1rem 1rem 0rem 1rem] flex flex-col row-start-1">
               <div className="follower">
                 <div>
-                  <div className="flex mt-5">
-
-                  <img
-                    src={
-                      userData?.user?.profilePicture
-                        ? userData?.user?.profilePicture
-                        : "defaultProfile.png"
-                    }
-                    alt=""
-                    className="followerImage"
-                    style={{ width: "50px", height: "50px" }}
-                  />
-                  <div className="name text-xl">
-                    <span>{userData?.user?.username}</span>
-                  </div>
+                  <div className="flex items-center mt-5">
+                    <ArrowBackIcon
+                      onClick={handleGoBack}
+                      className=" mr-5"
+                    />
+                    <img
+                      src={
+                        userData?.user?.profilePicture ? `https://learnreactbrocamp.s3.ap-northeast-1.amazonaws.com/connect/profiles/${userData.user.profilePicture}` :
+                        "https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
+                      }
+                      alt=""
+                      className="w-16 h-16 rounded-full "
+                      
+                    />
+                    <div className="ml-5 font-semibold text-xl">
+                      <span>{userData?.user?.username}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -136,21 +144,35 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receiveMessage }) => {
                 ))}
             </div>
             {/* chat-sender */}
-            <div className="chat-sender w-[90%] ml-16">
-              <div>+</div>
-              <InputEmoji value={newMessage} onChange={handleChange} />
+            <div className="flex items-center justify-center">
+              <div className="chat-sender w-[90%] sm:ml-16 bg-white flex justify-between h-14 items-center gap-4 p-2 md:rounded-xl rounded-full self-end">
+                <div className="bg-gray-300 md:rounded-md flex items-center justify-center font-bold cursor-pointer md:h-[70%] px-3 h-12 w-16 rounded-full">
+                  +
+                </div>
+                <InputEmoji value={newMessage} onChange={handleChange} />
+                {isSmallScreen ? (
               <div
-                className="button cursor-pointer text-lg bg-gradient-to-r from-l-pink to-l-blue text-white  font-semibold rounded-md"
+                className="button cursor-pointer text-lg bg-gradient-to-r from-l-pink to-l-blue text-white  rounded-full w-16 h-[98%] flex justify-center items-center"
                 onClick={handleSent}
               >
-                Send
+               <SendIcon />
               </div>
-              <input type="file" name="" id="" style={{ display: "none" }} />
-            </div>{" "}
+            ) : (
+              <div className="button cursor-pointer text-lg bg-gradient-to-r from-l-pink to-l-blue text-white font-semibold rounded-md p-1" onClick={handleSent}>
+               Send
+              </div>
+            )}
+                <input
+                  className="h-[70%] bg-gray-300 rounded-md border-none outline-none flex-1 text-base px-3"
+                  type="file"
+                  style={{ display: "none" }}
+                />
+              </div>
+            </div>
           </>
         ) : (
-          <span className="h-[100vh] text-center text-xl">
-            Tap on a chat to start conversation...
+          <span className="h-screen text-center text-xl">
+            Tap on a chat to start a conversation...
           </span>
         )}
       </div>

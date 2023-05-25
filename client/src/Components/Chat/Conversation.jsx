@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getUser } from "../../api/UserRequest";
 
-function Conversation({ data, currentUserId, online }) {
+function Conversation({ data, currentUserId, online , handleClick ,toggleVisibility }) {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -19,14 +19,18 @@ function Conversation({ data, currentUserId, online }) {
   }, [data]);
   return (
     <>
-      <div className="">
-        <div className="flex mx-2 bg-white rounded-lg mb-1 p-2">
+      <div  className="">
+        <div onClick={()=>{
+          handleClick()
+          toggleVisibility()
+        }} className="flex mx-2 bg-white rounded-lg mb-1 p-2">
           <div>
             {online && <div className="online-dot"></div>}
             <img
-              className="ml-3 shadow rounded-full max-w-[3rem] h-auto border-none"
+              className="ml-3 shadow rounded-full w-12 h-12 border-none"
               src={
-                userData?.user?.profilePicture ||
+                
+                userData?.user?.profilePicture ? `https://learnreactbrocamp.s3.ap-northeast-1.amazonaws.com/connect/profiles/${userData.user.profilePicture}` :
                 "https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
               }
               alt=""

@@ -28,7 +28,7 @@ function SignupRight() {
     mode: 'onBlur',
   });
   return (
-    <div className="LoginRight rounded-xl w-[28rem] bg-white  m-5 myflex flex-col ">
+    <div className="LoginRight rounded-xl py-4 w-[28rem] bg-white  m-5 myflex flex-col ">
       <p className="Heading text-3xl my-10">CONNECT</p>
       <div className="w-full max-w-[340px]">
         <form className="signupform " onSubmit={handleSubmit(handlesub)}>

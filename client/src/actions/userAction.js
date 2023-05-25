@@ -1,11 +1,22 @@
 import * as UserApi from "../api/UserRequest";
 export const followUser = (id, data) => async (dispatch) => {
   dispatch({ type: "FOLLOW_USER" });
-  UserApi.followUser(id, data);
+  const response =await UserApi.followUser(id, data);
+  dispatch({type:"FOLLOW_USER_SUCCESSFULL",data:id})
+  console.log(response,"response")
+
 };
 export const unfollowUser = (id, data) => async (dispatch) => {
   dispatch({ type: "UNFOLLOW_USER" });
-  UserApi.unfollowUser(id, data);
+  console.log(id,"id");
+  try{
+    const response = await UserApi.unfollowUser(id, data);
+    dispatch({type:"UNFOLLOW_USER_SUCCESSFULL",data:id})
+    console.log(response,"response")
+
+  }catch(err){
+ console.log(err)
+  }
 };
 
 // export const updateProfilePic = (id, data) => async (dispatch) => {

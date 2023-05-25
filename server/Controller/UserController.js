@@ -157,27 +157,32 @@ export const getAllUsers = async (req, res) => {
 
 //follow user
 
+
+
 export const followUser = async (req, res) => {
-  const id = req.params.id;
-  const { _id } = req.body;
-  if (_id === id) {
-    res.status(403).json("Action forbidden");
+  const id = req.params.id
+  const { currentUserId } = req.body
+
+  if (currentUserId === id) {
+      res.status(402).json("Action forbiddden")
   } else {
-    try {
-      const followUser = await UserModel.findById(id);
-      const followingUser = await UserModel.findById(_id);
-      if (!followUser.followers.includes(_id)) {
-        await followUser.updateOne({ $push: { followers: _id } });
-        await followingUser.updateOne({ $push: { following: id } });
-        res.status(200).json("user followed");
-      } else {
-        res.status(403).json("user already followed");
+      try {
+          const followUser = await UserModel.findById(id);
+          const followingUser = await UserModel.findById(currentUserId)
+          if (!followUser.followers.includes(currentUserId)) {
+              await followUser.updateOne({ $push: { followers: currentUserId } })
+              await followingUser.updateOne({ $push: { following: id } })
+              res.status(200).json("user followed")
+          }else{
+              res.status(403).json("user is already followed by you")
+          }
+
+      } catch (error) {
+          res.status(500).json(error)
+
       }
-    } catch (error) {
-      res.status(500).json(error);
-    }
   }
-};
+}
 
 //unfollow user
 
@@ -203,32 +208,30 @@ export const followUser = async (req, res) => {
 //   }
 // };
 export const unfollowUser = async (req, res) => {
-  const id = req.params.id;
-  const { _id } = req.body;
-  if (_id === id) {
-    res.status(403).json("Action forbidden");
+  const id = req.params.id
+  const { currentUserId } = req.body
+
+  if (currentUserId === id) {
+      res.status(402).json("Action forbiddden")
   } else {
-    try {
-      const followUser = await UserModel.findOneAndUpdate(
-        { _id: id },
-        { $pull: { followers: _id } },
-        { new: true }
-      );
-      const followingUser = await UserModel.findOneAndUpdate(
-        { _id: _id },
-        { $pull: { following: id } },
-        { new: true }
-      );
-      if (followUser && followingUser) {
-        res.status(200).json("user unfollowed");
-      } else {
-        res.status(403).json("user not followed");
+      try {
+          const followUser = await UserModel.findById(id);
+          const followingUser = await UserModel.findById(currentUserId)
+          if (followUser.followers.includes(currentUserId)) {
+              await followUser.updateOne({ $pull: { followers: currentUserId } })
+              await followingUser.updateOne({ $pull: { following: id } })
+              res.status(200).json("user unfollowed")
+              
+          }else{
+              res.status(403).json("user is not followed by you")
+          }
+
+      } catch (error) {
+          res.status(500).json(error)
+
       }
-    } catch (error) {
-      res.status(500).json(error);
-    }
   }
-};
+}
 // updateProfilepicture
 
 export const UpdateProfilePicture = (req, res) => {

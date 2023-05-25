@@ -7,6 +7,7 @@ const newChat = new ChatModel({
 })
 try {
     const result = await newChat.save()
+    
     res.status(200).json(result);
 } catch (error) {
     res.status(500).json(error)
@@ -22,7 +23,7 @@ export const getFollowers = async(req,res)=>{
             const { password, ...otherDetails } = user._doc;
             return { ...otherDetails };
           });
-
+     
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json(error)
@@ -30,11 +31,11 @@ export const getFollowers = async(req,res)=>{
 }
 
 export const UserChats= async(req,res)=>{
-    console.log('');
     try {
         const chat = await ChatModel.find({
             members:{$in:[req.params.userId]}
         })
+        
         res.status(200).json(chat)
     } catch (error) {
     res.status(500).json(error)
@@ -42,7 +43,6 @@ export const UserChats= async(req,res)=>{
 }
 
 export const findChat = async (req,res)=>{
-    console.log('adfdfdf')
     try {
         const chat = await ChatModel.findOne({
             members:{$all:[req.params.firstId,req.params.secondId]}

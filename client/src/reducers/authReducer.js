@@ -18,6 +18,25 @@ const authReducer = (
     case "AUTH_FAIL":
       return { ...state, loading: false, error: true };
 
+    case "UNFOLLOW_USER_SUCCESSFULL":
+      const updatedData = state.authData.user.following.filter((userId)=>userId !== action.data)
+      return{   ...state,
+        authData: {
+          ...state.authData,
+          user: {
+            ...state.authData.user,
+            following:updatedData
+          },
+        }, }
+        case "FOLLOW_USER_SUCCESSFULL":
+          return {   ...state,
+            authData: {
+              ...state.authData,
+              user: {
+                ...state.authData.user,
+                following:[...state.authData.user.following,action.data]
+              },
+            }, }
     case "UPDATE_PROFILE_PIC_SUCCESS":
       console.log("action", action);
       return {

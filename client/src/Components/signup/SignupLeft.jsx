@@ -3,7 +3,7 @@ import './signupLeft.css'
 import  pic  from "../../Images/signin.jpg";
 function SignupLeft() {
   return (
-    <div className="SignupLeft bg-white w-[40rem] h-[40rem]  myflex items-center flex-col">
+    <div className="SignupLeft bg-white xl:w-[40rem] xl:h-[40rem] lg:w-[35rem] md:w-[33rem]  myflex items-center flex-col">
     <div className="header ">
       <div>
         <svg
@@ -43,7 +43,7 @@ function SignupLeft() {
       </div>
     </div>
 
-    <p className="Heading text-3xl mt-12 mb-5 ">WELCOME TO CONNECT</p>
+    <p className="Heading text-3xl mt-12  mb-5 ">WELCOME TO CONNECT</p>
     <p className="Heading text-xl mb-5 ">A place to connect</p>
 
     <button

@@ -9,7 +9,6 @@ import UserProfile from "./Components/user/userProfile/UserProfile";
 // import EditProfile from "./Components/user/userProfile/EditProfile";
 // import Followed from "./Pages/Login/Followed";
 import Chat from "./Pages/Login/Chat/Chat";
-import Test from "./Components/Chat/Test";
 import AdminHome from "./Components/Admin/pages/AdminHome";
 import AdminLogin from "./Components/Admin/pages/AdminLogin";
 import AdminLayout from "./Components/Admin/layout/AdminLayout";
@@ -43,7 +42,6 @@ function App() {
         <Route path="/register" element={user? <Navigate to="../home"/>:<SignUp/>} />
         <Route path="/adminhome" element={<AdminHome />} />
         <Route path="/profile/:id" element={user ? <UserProfile  />: <Navigate to="../login"/>} />
-        <Route path="/test" element={<Test />} />
         <Route
           path="/admin/login"
           element={admintoken ? <Navigate to="../admin" /> : <AdminLogin />}
