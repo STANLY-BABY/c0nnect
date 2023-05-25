@@ -1,12 +1,11 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../../actions/authAction";
 import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from "@mui/icons-material/Search";
+import LogoutIcon from '@mui/icons-material/Logout';
 function Sidebar() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authReducer.authData);
@@ -14,7 +13,7 @@ function Sidebar() {
     dispatch(logOut());
   };
   return (
-    <div className="bg-white shadow-lg shadow-indigo-500/40 fixed md:overflow-scroll md:rounded-none md:rounded-br-lg md:left-0 md:min-h-screen  md:min-w-[12rem] md:pb-16 md:flex max-h-16 min-w-full left-0 bottom-0 sm:w-[140px] md:w-[175px] lg:w-[14rem] xl:w-[18rem]">
+    <div className="bg-white shadow-lg shadow-indigo-500/40 fixed md:overflow-scroll md:rounded-none md:rounded-br-lg md:left-0 md:min-h-screen  md:min-w-[12rem] md:pb-16 sm:pb-2 md:flex max-h-16 min-w-full left-0 bottom-0 sm:w-[140px] md:w-[175px] lg:w-[14rem] xl:w-[18rem] px-0 sm:px-2">
       <div className="md:p-5">
         <div className=" ">
           <div className=" flex md:ml-3  md:mt-10 md:flex md:flex-col xl:gap-10 lg:gap-8  md:gap-6 flex-wrap justify-between flex-row py-1">
@@ -34,8 +33,24 @@ function Sidebar() {
             <div className="md:hidden pt-2">
               <AddIcon />
             </div>
-            <div className="md:hidden pt-2">
-              <SearchIcon />
+            <div className="md:hidden">
+            <Link
+              to={`/profile/${user._id}`}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <div className="" >
+                <img
+                  src={
+                    user?.profilePicture
+                      ? user?.profilePicture
+                      : "https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-2-800x800.jpg"
+                  }
+                  alt="..."
+                  className="shadow rounded-full max-w-6 max-h-6 md:min-w-[3rem] md:min-h-[3rem] border-none mt-2 mr-2"
+                />
+              
+              </div>
+            </Link>
             </div>
             <Link to="/chat" style={{ textDecoration: "none", color: "black" }}>
               <div className=" md:flex md:items-center  md:gap-2 mt-2">
@@ -54,9 +69,9 @@ function Sidebar() {
                 </div>
               </Link>
             </div>
-            <div className="hidden md:block">
-              <div className=" md:flex  md:items-center md:gap-2 cursor-pointer text-slate-900">
-                <SettingsOutlinedIcon />
+            <div className="">
+              <div className="pt-2 md:flex  md:items-center md:gap-2 cursor-pointer  text-slate-900">
+                <LogoutIcon />
                 <span
                   onClick={handeleLogOut}
                   className="hidden md:block lg:text-base md:text-sm"
@@ -70,8 +85,9 @@ function Sidebar() {
             <Link
               to={`/profile/${user._id}`}
               style={{ textDecoration: "none", color: "black" }}
+              className="hidden md:block"
             >
-              <div className="flex  items-center" >
+              <div className="flex  items-center " >
                 <img
                   src={
                     user?.profilePicture

@@ -22,13 +22,11 @@ function ProfileCard() {
   useEffect(() => {
     const fetchProfileUser = async () => {
       if(profileUserId===user._id){
-        console.log(user,'profile');
         setProfileUser(user)
       }else{
         const profileUser=await UserApi.getUser(profileUserId)
         setProfileUser(profileUser)
         console.log(profileUser,'otherprofile');
-
       }
     };
     fetchProfileUser()

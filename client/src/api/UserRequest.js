@@ -20,6 +20,7 @@ export const updateCoverPic = (id, file) => {
     });
   });
 };
-export const updateUser = (id, formData) => API.put(`/user/${id}`, formData);
+export const updateUser = (id, formData) =>
+  API.put(`/user/${id}/update`, formData);
 export const getFollowedUserSearchData = (search, id) =>
   API.get(`/chats/getFollowers/${id}?search=${search}`);

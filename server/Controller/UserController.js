@@ -78,37 +78,40 @@ export const getUserDetails = async (req, res) => {
 // Update User
 
 export const UpdateUser = async (req, res) => {
-  const id = req.params.id;
-  try {
-    const { _id, password } = req.body;
-    console.log(req.body, "req.body");
-    if (id === _id) {
-      try {
-        if (password) {
-          const salt = await bcrypt.genSalt(10);
-          req.body.password = await bcrypt.hash(password, salt);
-        }
-        const user = await UserModel.findByIdAndUpdate(id, req.body, {
-          new: true,
-        });
-        const token = jwt.sign(
-          {
-            username: user.username,
-            id: user._id,
-          },
-          process.env.JWT_SEC,
-          {
-            expiresIn: "1hr",
-          }
-        );
-        res.status(200).json({ user, token });
-      } catch (error) {
-        res.status(500).json(error);
-      }
-    } else {
-      res.status(403).json("Access denied!");
-    }
-  } catch (error) {}
+  console.log(
+    "hellooo"
+  );
+  // const id = req.params.id;
+  // try {
+  //   const { _id, password } = req.body;
+  //   if (id === _id) {
+  //     try {
+  //       if (password) {
+  //         const salt = await bcrypt.genSalt(10);
+  //         req.body.password = await bcrypt.hash(password, salt);
+  //       }
+  //       const user = await UserModel.findByIdAndUpdate(id, req.body, {
+  //         new: true,
+  //       });
+  //       const token = jwt.sign(
+  //         {
+  //           username: user.username,
+  //           id: user._id,
+  //         },
+  //         process.env.JWT_SEC,
+  //         {
+  //           expiresIn: "1hr",
+  //         }
+  //       );
+  //       res.status(200).json({ user, token })
+  //       console.log(user,"user");
+  //     } catch (error) {
+  //       res.status(500).json(error);
+  //     }
+  //   } else {
+  //     res.status(403).json("Access denied!");
+  //   }
+  // } catch (error) {}
 };
 
 //Delete user
@@ -221,7 +224,7 @@ export const unfollowUser = async (req, res) => {
               await followUser.updateOne({ $pull: { followers: currentUserId } })
               await followingUser.updateOne({ $pull: { following: id } })
               res.status(200).json("user unfollowed")
-              
+
           }else{
               res.status(403).json("user is not followed by you")
           }

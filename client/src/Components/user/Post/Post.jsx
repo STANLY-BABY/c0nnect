@@ -27,8 +27,6 @@ import Box from "@mui/material/Box";
 import { getReports, reportPost } from "../../../api/ReportRequest";
 
 function Post({ data }) {
-
-
   const [reportData, setReportdata] = useState([]);
   const { user } = useSelector((state) => state.authReducer.authData);
   const [liked, setLiked] = useState(data.likes.includes(user._id));
@@ -42,6 +40,11 @@ function Post({ data }) {
   const [desc, setDesc] = useState(data.desc);
   const [commetModal, setCommentModal] = useState(false);
   const [ope, setOpe] = React.useState(false);
+  let isUser = false;
+  if (data.userId === user._id) {
+    isUser = true;
+  }
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -69,6 +72,7 @@ function Post({ data }) {
     setAnchorEl(null);
   };
   const handleLike = () => {
+    console.log(data, "datajaja");
     setLiked((prev) => !prev);
     likePost(data._id, user._id);
     liked ? setLikes((prev) => prev - 1) : setLikes((prev) => prev + 1);
@@ -157,7 +161,11 @@ function Post({ data }) {
                   horizontal: "left",
                 }}
               >
-                <MenuItem onClick={handleClickOpens}>Edit</MenuItem>
+                {isUser && (
+                  <div>
+                    <MenuItem onClick={handleClickOpens}>Edit</MenuItem>
+                  </div>
+                )}
                 <Dialog open={opens} onClose={handleCloses}>
                   <DialogTitle>Edit Post</DialogTitle>
                   <DialogContent>
@@ -181,7 +189,9 @@ function Post({ data }) {
                     <Button onClick={handleChangepost}>Confirm</Button>
                   </DialogActions>
                 </Dialog>
-                <MenuItem onClick={handleClickOpen}>Delete</MenuItem>
+                {isUser && (
+                  <MenuItem onClick={handleClickOpen}>Delete</MenuItem>
+                )}
                 <Dialog
                   fullScreen={fullScreen}
                   open={opened}
@@ -233,7 +243,9 @@ function Post({ data }) {
                     </Button>
                   </DialogActions>
                 </Dialog>
-                <MenuItem onClick={handleReportOpen}>Report</MenuItem>
+                {!isUser && (
+                  <MenuItem onClick={handleReportOpen}>Report</MenuItem>
+                )}
                 <Modal
                   open={ope}
                   onClose={handleClose}
@@ -330,7 +342,7 @@ function Post({ data }) {
                 alt=""
               />
             </div>
-            <div >
+            <div>
               {liked ? (
                 <>
                   <span className="font-semibold  text-slate-900 text-xs md:text-md mx-1">

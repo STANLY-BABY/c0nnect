@@ -15,7 +15,7 @@ const upload = multer({ storage: storage });
 const router = express.Router();
 router.get("/", getAllUsers);
 router.get("/:id", getUserDetails);
-router.put("/:id", UpdateUser);
+router.put("/:id/update", UpdateUser);
 router.delete("/:id", DeleteUser);
 router.put("/:id/follow", followUser);
 router.put("/:id/unfollow", unfollowUser);
