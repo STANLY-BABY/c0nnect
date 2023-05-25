@@ -12,6 +12,7 @@ import UserModel from "../Models/userModel.js";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 dotenv.config();
 
 const bucketName = process.env.AWS_BUCKET_NAME;
@@ -78,40 +79,42 @@ export const getUserDetails = async (req, res) => {
 // Update User
 
 export const UpdateUser = async (req, res) => {
-  console.log(
-    "hellooo"
-  );
-  // const id = req.params.id;
-  // try {
-  //   const { _id, password } = req.body;
-  //   if (id === _id) {
-  //     try {
-  //       if (password) {
-  //         const salt = await bcrypt.genSalt(10);
-  //         req.body.password = await bcrypt.hash(password, salt);
-  //       }
-  //       const user = await UserModel.findByIdAndUpdate(id, req.body, {
-  //         new: true,
-  //       });
-  //       const token = jwt.sign(
-  //         {
-  //           username: user.username,
-  //           id: user._id,
-  //         },
-  //         process.env.JWT_SEC,
-  //         {
-  //           expiresIn: "1hr",
-  //         }
-  //       );
-  //       res.status(200).json({ user, token })
-  //       console.log(user,"user");
-  //     } catch (error) {
-  //       res.status(500).json(error);
-  //     }
-  //   } else {
-  //     res.status(403).json("Access denied!");
-  //   }
-  // } catch (error) {}
+
+  const id = req.params.id;
+  try {
+    const { _id, password,} = req.body;
+    const {profilePicture,coverPicture, ...rest}=req.body
+    console.log("<------req.body------>",req.body);
+    console.log('-----rest------',rest);
+    if (id === _id) {
+      try {
+        if (password) {
+          const salt = await bcrypt.genSalt(10);
+          req.body.password = await bcrypt.hash(password, salt);
+        }
+        const user = await UserModel.findByIdAndUpdate(id, rest, {
+          new: true,
+        });
+        const token = jwt.sign(
+          {
+            username: user.username,
+            id: user._id,
+          },
+          process.env.JWT_SEC,
+          {
+            expiresIn: "1hr",
+          }
+        );
+        res.status(200).json({ user, token });
+        console.log("---user---",user);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+      }
+    } else {
+      res.status(403).json("Access denied!");
+    }
+  } catch (error) {}
 };
 
 //Delete user
@@ -160,32 +163,28 @@ export const getAllUsers = async (req, res) => {
 
 //follow user
 
-
-
 export const followUser = async (req, res) => {
-  const id = req.params.id
-  const { currentUserId } = req.body
+  const id = req.params.id;
+  const { currentUserId } = req.body;
 
   if (currentUserId === id) {
-      res.status(402).json("Action forbiddden")
+    res.status(402).json("Action forbiddden");
   } else {
-      try {
-          const followUser = await UserModel.findById(id);
-          const followingUser = await UserModel.findById(currentUserId)
-          if (!followUser.followers.includes(currentUserId)) {
-              await followUser.updateOne({ $push: { followers: currentUserId } })
-              await followingUser.updateOne({ $push: { following: id } })
-              res.status(200).json("user followed")
-          }else{
-              res.status(403).json("user is already followed by you")
-          }
-
-      } catch (error) {
-          res.status(500).json(error)
-
+    try {
+      const followUser = await UserModel.findById(id);
+      const followingUser = await UserModel.findById(currentUserId);
+      if (!followUser.followers.includes(currentUserId)) {
+        await followUser.updateOne({ $push: { followers: currentUserId } });
+        await followingUser.updateOne({ $push: { following: id } });
+        res.status(200).json("user followed");
+      } else {
+        res.status(403).json("user is already followed by you");
       }
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
-}
+};
 
 //unfollow user
 
@@ -211,30 +210,27 @@ export const followUser = async (req, res) => {
 //   }
 // };
 export const unfollowUser = async (req, res) => {
-  const id = req.params.id
-  const { currentUserId } = req.body
+  const id = req.params.id;
+  const { currentUserId } = req.body;
 
   if (currentUserId === id) {
-      res.status(402).json("Action forbiddden")
+    res.status(402).json("Action forbiddden");
   } else {
-      try {
-          const followUser = await UserModel.findById(id);
-          const followingUser = await UserModel.findById(currentUserId)
-          if (followUser.followers.includes(currentUserId)) {
-              await followUser.updateOne({ $pull: { followers: currentUserId } })
-              await followingUser.updateOne({ $pull: { following: id } })
-              res.status(200).json("user unfollowed")
-
-          }else{
-              res.status(403).json("user is not followed by you")
-          }
-
-      } catch (error) {
-          res.status(500).json(error)
-
+    try {
+      const followUser = await UserModel.findById(id);
+      const followingUser = await UserModel.findById(currentUserId);
+      if (followUser.followers.includes(currentUserId)) {
+        await followUser.updateOne({ $pull: { followers: currentUserId } });
+        await followingUser.updateOne({ $pull: { following: id } });
+        res.status(200).json("user unfollowed");
+      } else {
+        res.status(403).json("user is not followed by you");
       }
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
-}
+};
 // updateProfilepicture
 
 export const UpdateProfilePicture = (req, res) => {

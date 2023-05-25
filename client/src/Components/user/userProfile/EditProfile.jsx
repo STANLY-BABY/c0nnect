@@ -21,8 +21,11 @@ function EditProfile({ open, setOpen, data }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleSubmit=(e)=>{
+
     e.preventDefault();
     let UserData=formData;
+    
+    console.log(UserData,"userdata");
     dispatch(updateUser(param.id,UserData))
     setOpen(false)
   }

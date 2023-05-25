@@ -19,26 +19,31 @@ const authReducer = (
       return { ...state, loading: false, error: true };
 
     case "UNFOLLOW_USER_SUCCESSFULL":
-      const updatedData = state.authData.user.following.filter((userId)=>userId !== action.data)
-      return{   ...state,
+      const updatedData = state.authData.user.following.filter(
+        (userId) => userId !== action.data
+      );
+      return {
+        ...state,
         authData: {
           ...state.authData,
           user: {
             ...state.authData.user,
-            following:updatedData
+            following: updatedData,
           },
-        }, }
-        case "FOLLOW_USER_SUCCESSFULL":
-          return {   ...state,
-            authData: {
-              ...state.authData,
-              user: {
-                ...state.authData.user,
-                following:[...state.authData.user.following,action.data]
-              },
-            }, }
+        },
+      };
+    case "FOLLOW_USER_SUCCESSFULL":
+      return {
+        ...state,
+        authData: {
+          ...state.authData,
+          user: {
+            ...state.authData.user,
+            following: [...state.authData.user.following, action.data],
+          },
+        },
+      };
     case "UPDATE_PROFILE_PIC_SUCCESS":
-      console.log("action", action);
       return {
         ...state,
         authData: {
@@ -69,13 +74,18 @@ const authReducer = (
       return { ...state, updateLoading: true, error: false };
     case "UPDATING_SUCESS":
       localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
-
-      return { ...state, authData: action.data, updateLoading: false, error: false };
+      return {
+        ...state,
+        authData: action.data,
+        updateLoading: false,
+        error: false,
+      };
 
     case "UPDATING_FAIL":
+      console.log("fail");
       return { ...state, updateLoading: false, error: true };
-   
-      case "LOG_OUT":
+
+    case "LOG_OUT":
       localStorage.clear();
       return { ...state, authData: null, loading: false, error: false };
 

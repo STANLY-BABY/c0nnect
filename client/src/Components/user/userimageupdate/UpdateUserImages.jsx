@@ -22,7 +22,7 @@ const UpdateUserImages = ({ showModal, setShowModal, image, cover }) => {
 
   return (
     <Modal size="55%" opened={showModal} onClose={() => setShowModal(false)}>
-      <div className="changeImage">
+      <div className="changeImage flex flex-col">
         {cover ? (
           <h1 className="text-center mb-5 text-2xl font-semibold">
             Update Cover Picture
@@ -42,7 +42,7 @@ const UpdateUserImages = ({ showModal, setShowModal, image, cover }) => {
           </button>
         ) : (
           <button
-            className="mt-2 bg-[#a974ff] text-white font-medium py-1 px-2 w-20 border  border-white rounded"
+            className="mt-2 bg-[#a974ff] text-white font-medium py-1 px-2 w-20 border  border-white rounded "
             onClick={handleChangeProfile}
           >
             Update

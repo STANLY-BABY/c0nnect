@@ -177,11 +177,10 @@ const CommentModal = ({ commetModal, setCommentModal, post }) => {
           />
 
           <div
-            className="button"
-            style={{ width: "85px", height: "35px" }}
+            className="button bg-[#a974ff] text-white xl:text-base md:text-sm md:font-medium lg:py-1 lg:px-2 xl:min-w-[5rem] lg:min-w-[3.5rem] md:min-w-[2.5rem] border xl:ml-5 lg:ml-3 md:ml-3 border-white rounded"
             onClick={() => (commentEdit ? handleUpdate() : handleSend())}
           >
-            {commentEdit ? "update" : "add"}
+            {commentEdit ? "update" : "Add"}
           </div>
         </div>
       </div>

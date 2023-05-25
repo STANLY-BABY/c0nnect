@@ -1,7 +1,4 @@
-import axios from "axios";
-const API = axios.create({ baseURL: "https://api.c0nnect.tech" });
-
-// const API = axios.create({ baseURL: "http://localhost:5000" });
+import API from "./ApiConfig";
 export const getUser = async (userId) => await API.get(`/user/${userId}`);
 export const getAllUser = async () => await API.get("/user");
 export const followUser = (id, data) => API.put(`/user/${id}/follow`, data);

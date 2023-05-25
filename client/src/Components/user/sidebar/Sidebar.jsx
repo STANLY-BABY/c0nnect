@@ -70,10 +70,9 @@ function Sidebar() {
               </Link>
             </div>
             <div className="">
-              <div className="pt-2 md:flex  md:items-center md:gap-2 cursor-pointer  text-slate-900">
+              <div  onClick={handeleLogOut} className="pt-2 md:flex  md:items-center md:gap-2 cursor-pointer  text-slate-900">
                 <LogoutIcon />
                 <span
-                  onClick={handeleLogOut}
                   className="hidden md:block lg:text-base md:text-sm"
                 >
                   LogOut

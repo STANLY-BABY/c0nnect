@@ -14,12 +14,12 @@ function AdminSidebar() {
               <p className="text-2xl font-[mich]">CONNECT</p>
             </div>
           </Link>
-          <Link to="/adiminhome" style={{ textDecoration: "none", color: "black" }}>
+          {/* <Link to="/adiminhome" style={{ textDecoration: "none", color: "black" }}>
             <div className="item">
               <HomeOutlinedIcon className="" />
               <span>Dashboard</span>
             </div>
-          </Link>
+          </Link> */}
           <Link
             to="/usermanagement"
             style={{ textDecoration: "none", color: "black" }}
@@ -36,6 +36,15 @@ function AdminSidebar() {
             <div className="item">
               <DynamicFeedIcon />
               <span>Post Management</span>
+            </div>
+          </Link>
+          <Link
+            to="/reports"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <div className="item">
+              <ReportIcon />
+              <span>Reports</span>
             </div>
           </Link>
           <Link

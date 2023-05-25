@@ -281,8 +281,8 @@ function Post({ data }) {
           </div>
         </div>
 
-        <p className="md:my-5 my-2 w-full text-left px-10">{data.desc}</p>
-        <div className="">
+        <p className="md:my-5 my-2 w-full text-left px-10 ">{data.desc}</p>
+        <div className=" flex justify-center">
           <img
             src={data.image}
             alt=""

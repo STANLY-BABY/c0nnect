@@ -1,5 +1,4 @@
-import axios from 'axios'
-const API = axios.create({ baseURL: "https://api.c0nnect.tech" });
-// const API = axios.create({ baseURL: "http://localhost:5000" });
+import API from "./ApiConfig";
+
 
 export const userChats = (id) => API.get(`/chats/${id}`)

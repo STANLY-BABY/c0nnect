@@ -43,7 +43,6 @@ export const regUser = async (req, res) => {
   const { username } = req.body;
   try {
     const oldUser = await UserModel.findOne({ username });
-
     if (oldUser) {
       return res.status(400).json("Username already registered!");
     }
@@ -67,7 +66,6 @@ export const regUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const user = await UserModel.findOne({ email: email });
     if (user) {

@@ -12,16 +12,17 @@ const sidebarNavItems = [
         section: 'admin'
     },
     {
-        display: 'users',
-        icon: <i className='bx bx-star'></i>,
+        display: 'Users',
+        icon: <i className='bx bx-home'></i>,
         to: '/admin/users',
         section: 'users'
     },
     {
-        display: 'blockedusers',
+        display: 'Blockedusers',
         icon: <i className='bx bx-star'></i>,
         to: '/admin/blockedusers',
-        section: 'blockedusers'
+        section: 'blockedusers',
+        
     },
     {
         display: 'Post Reports',
@@ -29,6 +30,13 @@ const sidebarNavItems = [
         to: '/admin/allreports',
         section: 'allreports'
     },
+    {
+        display: 'Logout',
+        icon: <i className='bx bx-star'></i>,
+        to: '/admin/logout',
+        section: 'logOut'
+    },
+ 
 ]
 
 const Sidebar = () => {
@@ -82,11 +90,7 @@ const Sidebar = () => {
                 ))
             }
         </div>
-        <div>
-            <button className='button logout-button' onClick={()=>{
-                localStorage.clear()
-              }}>Logout</button>
-        </div>
+    
     </div>;
 };
 
